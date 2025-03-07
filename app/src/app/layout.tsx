@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import { Providers } from './providers'
-import Navigator from '@/components/navigator'
+import { Providers } from '../components/providers/providers'
+import { PostHogProvider } from '../components/providers/analytics-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import Navbar from '@/components/navbar'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -25,15 +27,24 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Providers>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <Navigator />
-          {children}
-        </body>
-      </html>
-    </Providers>
+          <PostHogProvider>
+            <Providers>
+              <Navbar />
+              {children}
+            </Providers>
+          </PostHogProvider>{' '}
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }

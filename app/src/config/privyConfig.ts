@@ -8,6 +8,7 @@ export const privyConfig: PrivyClientConfig = {
   },
   loginMethods: ['wallet', 'email', 'sms'],
   appearance: {
+    theme: 'dark',
     showWalletLoginFirst: true,
   },
 }
