@@ -1,9 +1,20 @@
-import Image from 'next/image'
+import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <div className="grid min-h-full grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 font-[family-name:var(--font-geist-sans)] text-5xl sm:p-20">
-      Ship your smart contracts now, not weeks.
-    </div>
+    <section className="flex min-h-[calc(100vh-80px)] justify-center px-20 font-[family-name:var(--font-geist-sans)] sm:py-[10%]">
+      <div className="flex h-full flex-col items-center justify-center gap-12">
+        <div className="grid gap-3 text-center">
+          <h2 className="text-4xl font-bold sm:text-6xl xl:text-7xl">
+            Ship your smart contracts instantly!
+          </h2>
+          <p className="text-muted text-xl sm:text-2xl">
+            Writing, testing, and deploying smart contracts is complex, but it
+            doesn't have to be.
+          </p>
+        </div>
+        <Button size={'lg'}>Start Deploying</Button>
+      </div>
+    </section>
   )
 }

@@ -5,8 +5,8 @@ function Items({ title }: { title: string }) {
 function TaskbarItems() {
   return (
     <div className="text-primary flex gap-4 py-2 opacity-50 sm:px-10">
-      <Items title="Contracts" />
-      <Items title="More" />
+      <Items title="Your Contracts" />
+      <Items title="Settings" />
     </div>
   )
 }
