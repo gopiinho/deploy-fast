@@ -10,7 +10,7 @@ export default function Home() {
           </h2>
           <p className="text-muted text-xl sm:text-2xl">
             Writing, testing, and deploying smart contracts is complex, but it
-            doesn't have to be.
+            doesn&apos;t have to be. Do it in 1 click.
           </p>
         </div>
         <Button size={'lg'}>Start Deploying</Button>

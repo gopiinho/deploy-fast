@@ -1,4 +1,5 @@
 'use client'
+import { CiWallet } from 'react-icons/ci'
 import Link from 'next/link'
 import { usePrivy } from '@privy-io/react-auth'
 import { Button } from './ui/button'
@@ -29,7 +30,7 @@ export default function Navigator() {
           </Button>
         ) : (
           <Button size="sm" disabled={disableLogin} onClick={login}>
-            Login
+            <CiWallet /> Login
           </Button>
         )}
       </div>
