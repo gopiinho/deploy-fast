@@ -1,8 +1,17 @@
-export default async function Page({
+import ContractDeploy from '@/components/contracts/contract-deploy'
+
+export default async function ContractInfo({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ contract: string }>
 }) {
-  const { slug } = await params
-  return <div>My Post: {slug}</div>
+  const { contract } = await params
+  return (
+    <ContractDeploy
+      title={contract}
+      description="Create cryptocurrency compliant with ERC20 standard"
+    >
+      aksdj
+    </ContractDeploy>
+  )
 }

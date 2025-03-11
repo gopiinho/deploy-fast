@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { LuRocket } from 'react-icons/lu'
 import {
   ItemCard,
@@ -7,21 +8,28 @@ import {
   ItemCardFooter,
 } from '../ui/item-card'
 import { Button } from '../ui/button'
+import { title } from 'process'
 
-function Item() {
+interface ContractItemProps {
+  title: string
+  description: string
+  path: string
+}
+
+function ContractItem({ title, description, path }: ContractItemProps) {
   return (
     <ItemCard>
       <ItemCardHeader>
-        <ItemCardTitle>Token</ItemCardTitle>
-        <ItemCardDescription>
-          Implementation of standard ERC20 token.
-        </ItemCardDescription>
+        <ItemCardTitle>{title}</ItemCardTitle>
+        <ItemCardDescription>{description}</ItemCardDescription>
       </ItemCardHeader>
       <ItemCardFooter>
-        <Button variant={'deploy'} size={'sm'}>
-          Deploy
-          <LuRocket size={50} />
-        </Button>
+        <Link href={path}>
+          <Button variant={'deploy'} size={'sm'}>
+            Deploy
+            <LuRocket size={50} />
+          </Button>
+        </Link>
       </ItemCardFooter>
     </ItemCard>
   )
@@ -31,7 +39,12 @@ export default function ItemCardList() {
   return (
     <div className="grid w-full grid-cols-1 justify-between gap-4 py-3 sm:grid-cols-2 lg:grid-cols-3">
       {[1, 2, 3, 4, 5, 6].map((item) => (
-        <Item key={item} />
+        <ContractItem
+          title="Token"
+          description="Implementation of standard ERC20 token."
+          path={`/contracts/Token`}
+          key={item}
+        />
       ))}
     </div>
   )

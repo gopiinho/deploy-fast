@@ -15,14 +15,14 @@ export default function Navigator() {
       <Link href={'/'}>
         <h2 className="text-xl font-semibold">DeployFast</h2>
       </Link>
-      <div className="text-muted hidden gap-4 lg:flex">
+      {/* <div className="text-muted hidden gap-4 lg:flex">
         <Link
           className="hover:text-foreground rounded-2xl px-3 py-1 duration-150"
           href={'/contracts/'}
         >
           Contracts
         </Link>
-      </div>
+      </div> */}
       <div className="flex gap-2">
         {ready && authenticated ? (
           <Button size="sm" disabled={disableLogout} onClick={logout}>
