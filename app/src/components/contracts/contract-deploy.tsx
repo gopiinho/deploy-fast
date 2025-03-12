@@ -1,3 +1,5 @@
+import { Button } from '../ui/button'
+
 interface ContractDeployProps {
   children: React.ReactNode
   title: string
@@ -10,12 +12,15 @@ export default function ContractDeploy({
   description,
 }: Readonly<ContractDeployProps>) {
   return (
-    <section className="mx-auto my-8 flex h-[100rem] flex-col gap-4 lg:my-12 lg:w-[70%]">
+    <section className="mx-auto my-8 flex h-[100rem] flex-col gap-8 max-lg:px-4 lg:my-12 lg:w-[70%]">
       <div className="flex flex-col">
-        <h3 className="text-2xl font-semibold lg:text-3xl">{title}</h3>
+        <h3 className="text-2xl font-semibold lg:text-5xl">{title}</h3>
         <p className="text-muted-foreground">{description}</p>
       </div>
       {children}
+      <div>
+        <Button size={'lg'}>Deploy Now</Button>
+      </div>
     </section>
   )
 }
