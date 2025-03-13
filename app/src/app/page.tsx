@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <section className="flex min-h-[calc(100vh-80px)] justify-center px-20 font-[family-name:var(--font-geist-sans)] sm:py-[10%]">
+    <section className="flex min-h-[calc(100vh-120px)] justify-center px-4 py-[20%] font-[family-name:var(--font-geist-sans)] sm:px-8 sm:py-[10%] lg:px-20">
       <div className="flex h-full flex-col items-center justify-center gap-12">
         <div className="grid gap-3 text-center">
-          <h2 className="text-muted-foreground text-4xl font-bold sm:text-6xl lg:text-7xl">
+          <h2 className="text-muted-foreground text-4xl font-bold sm:text-5xl lg:text-7xl">
             Ship your <span className="text-foreground">smart contracts</span>{' '}
             <br /> instantly!
           </h2>
