@@ -1,6 +1,9 @@
+'use client'
+import { usePrivy } from '@privy-io/react-auth'
 import { FaStarOfLife } from 'react-icons/fa6'
 import { IoIosArrowDown } from 'react-icons/io'
 import { Input } from '../ui/input'
+import useErc20FormStore from '@/state/erc20FormStore'
 
 interface TokenFormBlockProps {
   children: React.ReactNode
@@ -39,6 +42,20 @@ function Tag({ isRequired, title, description }: TagProps) {
 }
 
 export default function TokenForm() {
+  const { user } = usePrivy()
+  const {
+    name,
+    symbol,
+    description,
+    mintAmount,
+    recipient,
+    setName,
+    setSymbol,
+    setDescription,
+    setMintAmount,
+    setRecipient,
+  } = useErc20FormStore()
+
   return (
     <section>
       <TokenFormBlock title="Metadata">
@@ -46,11 +63,19 @@ export default function TokenForm() {
           <div className="flex w-full gap-4">
             <div className="flex w-[70%] flex-col gap-2">
               <Tag title="Name" isRequired />
-              <Input />
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
             <div className="flex w-[30%] flex-col gap-2">
               <Tag title="Symbol" isRequired />
-              <Input />
+              <Input
+                type="text"
+                value={symbol}
+                onChange={(e) => setSymbol(e.target.value)}
+              />
             </div>
           </div>
           <div className="flex w-full flex-col gap-2">
@@ -58,6 +83,8 @@ export default function TokenForm() {
             <textarea
               cols={20}
               className="border-input resize-none rounded-sm border p-3"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
@@ -66,11 +93,26 @@ export default function TokenForm() {
         <div className="flex flex-col gap-4">
           <div className="flex w-full flex-col gap-2">
             <Tag title="Mint Amount" isRequired />
-            <Input />
+            <Input
+              value={mintAmount}
+              onChange={(e) => setMintAmount(Number(e.target.value) || 0)}
+            />
           </div>
           <div className="flex w-full flex-col gap-2">
             <Tag title="Recipient" isRequired />
-            <Input />
+            {user ? (
+              <Input
+                value={user.wallet?.address}
+                onChange={(e) => setRecipient(e.target.value)}
+              />
+            ) : (
+              <Input
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+              />
+            )}
+
+            {/* <Input /> */}
           </div>
         </div>
       </TokenFormBlock>

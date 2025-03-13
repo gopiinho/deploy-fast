@@ -8,7 +8,6 @@ import {
   ItemCardFooter,
 } from '../ui/item-card'
 import { Button } from '../ui/button'
-import { title } from 'process'
 
 interface ContractItemProps {
   title: string
@@ -20,7 +19,9 @@ function ContractItem({ title, description, path }: ContractItemProps) {
   return (
     <ItemCard>
       <ItemCardHeader>
-        <ItemCardTitle>{title}</ItemCardTitle>
+        <ItemCardTitle>
+          {title} <span className="text-sm text-green-400">New</span>
+        </ItemCardTitle>
         <ItemCardDescription>{description}</ItemCardDescription>
       </ItemCardHeader>
       <ItemCardFooter>
@@ -38,14 +39,11 @@ function ContractItem({ title, description, path }: ContractItemProps) {
 export default function ItemCardList() {
   return (
     <div className="grid w-full grid-cols-1 justify-between gap-4 py-3 sm:grid-cols-2 lg:grid-cols-3">
-      {[1, 2, 3, 4, 5, 6].map((item) => (
-        <ContractItem
-          title="Token"
-          description="Implementation of standard ERC20 token."
-          path={`/contracts/Token`}
-          key={item}
-        />
-      ))}
+      <ContractItem
+        title="Token"
+        description="Implementation of standard ERC20 token."
+        path={`/contracts/Token`}
+      />
     </div>
   )
 }
