@@ -1,3 +1,4 @@
+import { MdUpload } from 'react-icons/md'
 import { Button } from '../ui/button'
 
 interface ContractDeployProps {
@@ -19,7 +20,9 @@ export default function ContractDeploy({
       </div>
       {children}
       <div>
-        <Button size={'lg'}>Deploy Now</Button>
+        <Button size={'lg'}>
+          Deploy Now <MdUpload />
+        </Button>
       </div>
     </section>
   )

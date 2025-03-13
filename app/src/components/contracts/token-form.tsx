@@ -26,15 +26,15 @@ function Tag({ isRequired, title, description }: TagProps) {
   return isRequired ? (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-1">
-        <span>{title}</span>
-        <span className="text-red-500">
-          <FaStarOfLife size={10} />
+        <span className="font-semibold">{title}</span>
+        <span className="text-red-400">
+          <FaStarOfLife size={7} />
         </span>
       </div>
       <p className="text-muted-foreground text-sm">{description}</p>
     </div>
   ) : (
-    <div>{title}</div>
+    <span className="font-semibold">{title}</span>
   )
 }
 
@@ -82,8 +82,8 @@ export default function TokenForm() {
               isRequired
               description="Select a network to deploy this contract on."
             />
-            <div className="border-input hover:bg-primary-foreground flex h-12 cursor-pointer items-center justify-between rounded-sm border p-3 px-4 duration-200">
-              <span>Ethereum Mainnet</span>
+            <div className="border-input hover:bg-primary-foreground flex h-12 cursor-pointer items-center justify-between rounded-sm border p-3 px-4 duration-200 lg:w-[40%]">
+              <span>Base Sepolia</span>
               <IoIosArrowDown />
             </div>
           </div>
