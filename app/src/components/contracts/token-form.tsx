@@ -81,7 +81,7 @@ export default function TokenForm() {
           <div className="flex w-full flex-col gap-2">
             <Tag title="Description" />
             <textarea
-              cols={20}
+              cols={50}
               className="border-input resize-none rounded-sm border p-3"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -124,7 +124,7 @@ export default function TokenForm() {
               isRequired
               description="Select a network to deploy this contract on."
             />
-            <div className="border-input hover:bg-primary-foreground flex h-12 cursor-pointer items-center justify-between rounded-sm border p-3 px-4 duration-200 lg:w-[40%]">
+            <div className="border-input hover:bg-primary-foreground flex h-12 cursor-pointer items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
               <span>Base Sepolia</span>
               <IoIosArrowDown />
             </div>
