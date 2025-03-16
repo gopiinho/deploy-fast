@@ -6,7 +6,7 @@ import { Button } from './ui/button'
 import NavProfile from './nav-profile'
 
 export default function Navigator() {
-  const { ready, authenticated, login, logout } = usePrivy()
+  const { ready, authenticated, login } = usePrivy()
 
   const disableLogin = !ready || (ready && authenticated)
 
