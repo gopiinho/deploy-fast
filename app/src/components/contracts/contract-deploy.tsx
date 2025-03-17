@@ -1,6 +1,3 @@
-import { MdUpload } from 'react-icons/md'
-import { Button } from '../ui/button'
-
 interface ContractDeployProps {
   children: React.ReactNode
   title: string
@@ -19,11 +16,6 @@ export default function ContractDeploy({
         <p className="text-muted-foreground">{description}</p>
       </div>
       {children}
-      <div>
-        <Button size={'lg'}>
-          Deploy Now <MdUpload />
-        </Button>
-      </div>
     </section>
   )
 }
