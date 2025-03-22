@@ -1,13 +1,28 @@
 'use client'
 import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
+import { MdUpload } from 'react-icons/md'
+import { useWriteContract } from 'wagmi'
+import { Address } from 'viem'
+
 import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 import useErc20FormStore from '@/state/erc20FormStore'
 import { FormBlock } from '../form-block'
 import { FormTag } from '../form-tag'
+import { dfManagerAbi } from '@/lib/dfManagerAbi'
+import { DF_MANAGER } from '@/lib/constants'
+
+interface HandleTokenDeployProps {
+  name: string
+  symbol: string
+  mintAmount: number
+  recipient: string
+}
 
 export default function TokenForm() {
   const { user } = usePrivy()
+  const { writeContractAsync } = useWriteContract()
   const {
     name,
     symbol,
@@ -20,6 +35,33 @@ export default function TokenForm() {
     setMintAmount,
     setRecipient,
   } = useErc20FormStore()
+
+  async function handleDeployToken({
+    name,
+    symbol,
+    mintAmount,
+    recipient,
+  }: HandleTokenDeployProps) {
+    try {
+      const finalRecipient =
+        recipient.trim() || (user?.wallet?.address as Address)
+
+      if (!finalRecipient) {
+        alert('Recipient address is required.')
+        return
+      }
+      let tx = await writeContractAsync({
+        abi: dfManagerAbi,
+        address: DF_MANAGER,
+        functionName: '_deployErc20',
+        args: [name, symbol, BigInt(mintAmount), finalRecipient as Address],
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    }
+  }
 
   return (
     <section>
@@ -65,17 +107,11 @@ export default function TokenForm() {
           </div>
           <div className="flex w-full flex-col gap-2">
             <FormTag title="Recipient" isRequired />
-            {user ? (
-              <Input
-                value={user.wallet?.address}
-                onChange={(e) => setRecipient(e.target.value)}
-              />
-            ) : (
-              <Input
-                value={recipient}
-                onChange={(e) => setRecipient(e.target.value)}
-              />
-            )}
+            <Input
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+              placeholder={user?.wallet?.address || 'Enter recipient address'}
+            />
 
             {/* <Input /> */}
           </div>
@@ -96,6 +132,19 @@ export default function TokenForm() {
           </div>
         </div>
       </FormBlock>
+      <Button
+        size={'lg'}
+        onClick={() =>
+          handleDeployToken({
+            name,
+            symbol,
+            mintAmount: mintAmount ?? 0,
+            recipient,
+          })
+        }
+      >
+        Deploy Now <MdUpload />
+      </Button>
     </section>
   )
 }
