@@ -4,7 +4,7 @@ type Erc20FormType = {
   name: string
   symbol: string
   description?: string
-  mintAmount: number | undefined
+  mintAmount: number
   recipient: string
   setName: (name: string) => void
   setSymbol: (symbol: string) => void
@@ -17,7 +17,7 @@ const useErc20FormStore = create<Erc20FormType>((set) => ({
   name: '',
   symbol: '',
   description: '',
-  mintAmount: undefined,
+  mintAmount: 0,
   recipient: '',
   setName: (name) => set(() => ({ name })),
   setSymbol: (symbol) => set(() => ({ symbol })),

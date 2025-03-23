@@ -8,6 +8,7 @@ import {
   ItemCardFooter,
 } from '../ui/item-card'
 import { Button } from '../ui/button'
+import { contracts } from '@/lib/contracts'
 
 interface ContractItemProps {
   title: string
@@ -39,11 +40,14 @@ function ContractItem({ title, description, path }: ContractItemProps) {
 export default function ItemCardList() {
   return (
     <div className="grid w-full grid-cols-1 justify-between gap-4 py-3 sm:grid-cols-2 lg:grid-cols-3">
-      <ContractItem
-        title="Token"
-        description="Implementation of standard ERC20 token."
-        path={`/contracts/Token`}
-      />
+      {contracts.map(({ title, description, path }) => (
+        <ContractItem
+          key={title}
+          title={title}
+          description={description}
+          path={path}
+        />
+      ))}
     </div>
   )
 }

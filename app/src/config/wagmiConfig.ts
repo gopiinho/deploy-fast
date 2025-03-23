@@ -1,14 +1,11 @@
-import { mainnet, sepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 import { http } from 'wagmi'
 
 import { createConfig } from '@privy-io/wagmi'
 
-// Replace these with your app's chains
-
 export const wagmiConfig = createConfig({
-  chains: [mainnet, sepolia],
+  chains: [baseSepolia],
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+    [baseSepolia.id]: http(),
   },
 })

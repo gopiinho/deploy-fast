@@ -1,5 +1,5 @@
 import ContractDeploy from '@/components/contracts/contract-deploy'
-import TokenForm from '@/components/contracts/token-form'
+import { contracts } from '@/lib/contracts'
 
 export default async function ContractInfo({
   params,
@@ -7,12 +7,23 @@ export default async function ContractInfo({
   params: Promise<{ contract: string }>
 }) {
   const { contract } = await params
+
+  const contractDetails = contracts.find(
+    (c) => c.title.toLowerCase() === contract.toLowerCase()
+  )
+
+  if (!contractDetails) {
+    return <div>Contract not found</div>
+  }
+
+  const FormComponent = contractDetails.formComponent
+
   return (
     <ContractDeploy
-      title={contract}
-      description="Create cryptocurrency compliant with ERC20 standard"
+      title={contractDetails.title}
+      description={contractDetails.formDescription}
     >
-      <TokenForm />
+      <FormComponent />
     </ContractDeploy>
   )
 }
