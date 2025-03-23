@@ -4,7 +4,7 @@ import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
 import { useWriteContract } from 'wagmi'
-import { Address } from 'viem'
+import { Address, parseEther } from 'viem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -27,7 +27,7 @@ import { DF_MANAGER } from '@/lib/constants'
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   symbol: z.string().min(2).max(50),
-  mintAmount: z.coerce.number(),
+  mintAmount: z.coerce.number().min(1),
   recipient: z.string(),
 })
 
@@ -55,14 +55,6 @@ export default function TokenForm() {
 
   async function handleDeployToken(values: z.infer<typeof formSchema>) {
     try {
-      const finalRecipient =
-        recipient.trim() || (user?.wallet?.address as Address)
-
-      if (!finalRecipient) {
-        alert('Recipient address is required.')
-        return
-      }
-      console.log(values)
       await writeContractAsync({
         abi: dfManagerAbi,
         address: DF_MANAGER,
@@ -70,14 +62,13 @@ export default function TokenForm() {
         args: [
           values.name,
           values.symbol,
-          BigInt(values.mintAmount),
+          parseEther(values.mintAmount.toString()),
           values.recipient as Address,
         ],
       })
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message)
-        console.log(values)
+        console.log(error.message)
       }
     }
   }
