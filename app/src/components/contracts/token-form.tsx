@@ -135,7 +135,11 @@ export default function TokenForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} type="number" />
+                        <Input
+                          {...field}
+                          type="number"
+                          className="[&::-moz-appearance:textfield] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
