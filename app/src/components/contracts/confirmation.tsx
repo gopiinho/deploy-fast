@@ -17,7 +17,7 @@ interface ConfirmationProps {
 
 interface InputValueProps {
   title: string
-  value: any
+  value: string | number | undefined
   isAddress?: boolean
 }
 
@@ -26,7 +26,9 @@ function InputValue({ title, value, isAddress }: InputValueProps) {
     <div className="flex flex-col">
       <div className="text-muted font-medium">{title}</div>
       {isAddress ? (
-        <div className="text-semibold text-xl">{shortenAddress(value)}</div>
+        <div className="text-semibold text-xl">
+          {shortenAddress(String(value ?? ''))}
+        </div>
       ) : (
         <div className="text-semibold text-xl">{value}</div>
       )}
