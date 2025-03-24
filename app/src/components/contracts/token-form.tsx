@@ -23,6 +23,7 @@ import { FormBlock } from '../form-block'
 import { FormTag } from '../form-tag'
 import { dfManagerAbi } from '@/lib/dfManagerAbi'
 import { DF_MANAGER } from '@/lib/constants'
+import Confirmation from './confirmation'
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -34,8 +35,18 @@ const formSchema = z.object({
 export default function TokenForm() {
   const { user } = usePrivy()
   const { writeContractAsync } = useWriteContract()
-  const { name, symbol, description, mintAmount, recipient, setDescription } =
-    useErc20FormStore()
+  const {
+    name,
+    symbol,
+    description,
+    mintAmount,
+    recipient,
+    setDescription,
+    confirming,
+    setConfirming,
+    loading,
+    setLoading,
+  } = useErc20FormStore()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,6 +66,7 @@ export default function TokenForm() {
 
   async function handleDeployToken(values: z.infer<typeof formSchema>) {
     try {
+      setLoading(true)
       await writeContractAsync({
         abi: dfManagerAbi,
         address: DF_MANAGER,
@@ -66,10 +78,19 @@ export default function TokenForm() {
           values.recipient as Address,
         ],
       })
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       if (error instanceof Error) {
         console.log(error.message)
       }
+    }
+  }
+
+  async function handleOpenConfirmation() {
+    const isValid = await form.trigger()
+    if (isValid) {
+      setConfirming(true)
     }
   }
 
@@ -135,7 +156,11 @@ export default function TokenForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} type="number" />
+                        <Input
+                          {...field}
+                          type="number"
+                          className="[&::-moz-appearance:textfield] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -179,9 +204,22 @@ export default function TokenForm() {
               </div>
             </div>
           </FormBlock>
-          <Button size={'lg'} type="submit">
+          <Button size="lg" type="button" onClick={handleOpenConfirmation}>
             Deploy Now <MdUpload />
           </Button>
+
+          {confirming && (
+            <Confirmation
+              close={() => setConfirming(false)}
+              onClick={form.handleSubmit(handleDeployToken)}
+              isToken
+              tokenName={form.getValues('name')}
+              tokenSymbol={form.getValues('symbol')}
+              mintAmount={form.getValues('mintAmount')}
+              recipient={form.getValues('recipient')}
+              isLoading={loading}
+            />
+          )}
         </form>
       </Form>
     </section>
