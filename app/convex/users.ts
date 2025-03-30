@@ -6,9 +6,9 @@ export const createUser = mutation({
     privyDid: v.string(),
     email: v.optional(v.string()),
     name: v.string(),
-    createdAt: v.string(),
+    wallet: v.optional(v.string()),
   },
-  handler: async (ctx, { privyDid, email, name, createdAt }) => {
+  handler: async (ctx, { privyDid, email, name, wallet }) => {
     const existingUser = await ctx.db
       .query('users')
       .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
@@ -18,7 +18,7 @@ export const createUser = mutation({
         privyDid,
         email,
         name,
-        createdAt,
+        wallet,
       })
     }
   },
