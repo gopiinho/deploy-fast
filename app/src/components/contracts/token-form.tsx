@@ -62,7 +62,7 @@ export default function TokenForm() {
     if (user?.wallet?.address) {
       form.setValue('recipient', user.wallet.address as Address)
     }
-  }, [user?.wallet?.address, form.setValue])
+  }, [user?.wallet?.address, form.setValue, form])
 
   async function handleDeployToken(values: z.infer<typeof formSchema>) {
     try {
@@ -197,7 +197,7 @@ export default function TokenForm() {
                   isRequired
                   description="Select a network to deploy this contract on."
                 />
-                <div className="border-input hover:bg-primary-foreground flex h-12 cursor-pointer items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
+                <div className="border-input hover:bg-primary-foreground flex h-12 cursor-not-allowed items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
                   <span>Base Sepolia</span>
                   <IoIosArrowDown />
                 </div>
@@ -207,7 +207,6 @@ export default function TokenForm() {
           <Button size="lg" type="button" onClick={handleOpenConfirmation}>
             Deploy Now <MdUpload />
           </Button>
-
           {confirming && (
             <Confirmation
               close={() => setConfirming(false)}

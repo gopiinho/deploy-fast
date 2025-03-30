@@ -4,7 +4,8 @@ import './globals.css'
 import { Providers } from '../components/providers/providers'
 import { PostHogProvider } from '../components/providers/analytics-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
-import Navbar from '@/components/navbar'
+import AuthState from '@/components/auth-state'
+import Navigator from '@/components/navigator'
 import Footer from '@/components/footer'
 
 const geistSans = Geist({
@@ -40,7 +41,8 @@ export default function RootLayout({
         >
           <PostHogProvider>
             <Providers>
-              <Navbar />
+              <AuthState />
+              <Navigator />
               {children}
               <Footer />
             </Providers>
