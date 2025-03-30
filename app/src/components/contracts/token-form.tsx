@@ -62,7 +62,7 @@ export default function TokenForm() {
     if (user?.wallet?.address) {
       form.setValue('recipient', user.wallet.address as Address)
     }
-  }, [user?.wallet?.address, form.setValue])
+  }, [user?.wallet?.address, form.setValue, form])
 
   async function handleDeployToken(values: z.infer<typeof formSchema>) {
     try {
