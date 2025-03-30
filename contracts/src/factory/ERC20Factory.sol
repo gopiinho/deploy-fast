@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 import {ERC20Contract} from "../tokens/ERC20.sol";
 
-contract ERC20Factory  {
+contract ERC20Factory {
     ///////////////////////
     /// State Variables ///
     ///////////////////////
@@ -19,10 +19,13 @@ contract ERC20Factory  {
     ///////////////
     constructor() {}
 
-    function _deployErc20(string memory name, string memory symbol, uint256 mintAmount, address mintTo) external returns(address) {
-        address erc20Address = address(new ERC20Contract(name, symbol, mintAmount, mintTo));
+    function _deployErc20(string memory name, string memory symbol, uint256 mintAmount, address mintTo)
+        external
+        returns (address)
+    {
+        address erc20Address = address(new ERC20Contract(name, symbol, mintAmount, mintTo, msg.sender));
         erc20 = ERC20Contract(erc20Address);
         emit ERC20Deployed(name, symbol, mintAmount, erc20Address);
         return erc20Address;
     }
- }
+}
