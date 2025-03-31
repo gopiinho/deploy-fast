@@ -4,7 +4,7 @@ import './globals.css'
 import { Providers } from '../components/providers/providers'
 import { PostHogProvider } from '../components/providers/analytics-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
-import AuthState from '@/components/auth-state'
+import AuthState from '@/components/auth/auth-state'
 import Navigator from '@/components/navigator'
 import Footer from '@/components/footer'
 

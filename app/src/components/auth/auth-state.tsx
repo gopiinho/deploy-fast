@@ -2,12 +2,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useAccount, useDisconnect } from 'wagmi'
-import { api } from '../../convex/_generated/api'
+import { api } from '../../../convex/_generated/api'
 import { useMutation } from 'convex/react'
 
 export default function AuthState() {
-  const [hasChecked, setHasChecked] = useState(false)
-  const { user, authenticated, logout } = usePrivy()
+  const { ready, user, authenticated, logout } = usePrivy()
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
   const createUser = useMutation(api.users.createUser)
@@ -16,13 +15,8 @@ export default function AuthState() {
   const previouslyConnected = useRef(false)
 
   useEffect(() => {
-    if (!hasChecked) {
-      setHasChecked(true)
-      return
-    }
-
     const syncUserToConvex = async () => {
-      if (authenticated && user) {
+      if (ready && authenticated && user) {
         try {
           await createUser({
             privyDid: user.id,
@@ -60,15 +54,7 @@ export default function AuthState() {
         clearTimeout(walletCheckTimeoutRef.current)
       }
     }
-  }, [
-    authenticated,
-    isConnected,
-    hasChecked,
-    user,
-    createUser,
-    logout,
-    disconnect,
-  ])
+  }, [authenticated, isConnected, user, createUser, logout, disconnect])
 
   return null
 }
