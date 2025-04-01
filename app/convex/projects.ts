@@ -4,32 +4,22 @@ import slugify from 'slugify'
 
 export const createProject = mutation({
   args: {
+    privyDid: v.string(),
     name: v.string(),
   },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-
-    if (!identity) {
-      throw new Error('User not authenticated.')
-    }
-
-    const projectName = args.name.trim()
+  handler: async (ctx, { privyDid, name }) => {
+    const projectName = name.trim()
     if (!projectName) {
       throw new Error('Project name cannot be empty.')
     }
 
     const user = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) =>
-        q.eq('privyDid', identity.tokenIdentifier)
-      )
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
       .first()
 
     if (!user) {
-      console.error(
-        `Failed to create project: Convex user not found for privy DID ${identity.tokenIdentifier}. AuthState might have failed or not run yet.`
-      )
-      throw new Error('User record not found. Please try again shortly.')
+      throw new Error('User not found.')
     }
 
     let slug = slugify(projectName, {
@@ -55,27 +45,14 @@ export const createProject = mutation({
   },
 })
 
-export const getProjectBySlug = query({
-  args: { slug: v.string() },
-  handler: async (ctx, args) => {
-    return await ctx.db
-      .query('projects')
-      .withIndex('by_slug', (q) => q.eq('slug', args.slug))
-      .first()
-  },
-})
-
 export const getMyProjects = query({
-  args: {},
-  handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) return []
-
+  args: {
+    privyDid: v.string(),
+  },
+  handler: async (ctx, { privyDid }) => {
     const user = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) =>
-        q.eq('privyDid', identity.tokenIdentifier)
-      )
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
       .first()
 
     if (!user) return []

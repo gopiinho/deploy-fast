@@ -1,4 +1,5 @@
 import { mutation, query } from './_generated/server'
+import { Doc } from './_generated/dataModel'
 import { v } from 'convex/values'
 
 export const createUser = mutation({
@@ -28,48 +29,36 @@ export const createUser = mutation({
   },
 })
 
-export const getMyUserAndProjectCount = query({
-  args: {},
-  handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) {
-      return null
-    }
-
-    const user = await ctx.db
+export const getUserAndProjectCount = query({
+  args: {
+    privyDid: v.string(),
+  },
+  handler: async (ctx, { privyDid }) => {
+    const user: Doc<'users'> | null = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) =>
-        q.eq('privyDid', identity.tokenIdentifier)
-      )
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
       .first()
 
     if (!user) {
-      console.warn(
-        `User ${identity.tokenIdentifier} authenticated but Convex record not found yet.`
-      )
-      return { userId: null, projectCount: 0 }
+      console.warn(`User not found for privyDid: ${privyDid}`)
+      return null
     }
 
     const projects = await ctx.db
       .query('projects')
       .withIndex('by_userId', (q) => q.eq('userId', user._id))
       .collect()
+
     return { userId: user._id, projectCount: projects.length }
   },
 })
 
 export const getMyUser = query({
-  args: {},
-  handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
-
-    if (!identity) return null
-
+  args: { privyDid: v.string() },
+  handler: async (ctx, { privyDid }) => {
     const user = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) =>
-        q.eq('privyDid', identity.tokenIdentifier)
-      )
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
       .unique()
     return user
   },
