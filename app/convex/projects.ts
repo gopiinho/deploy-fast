@@ -64,3 +64,24 @@ export const getUserProjects = query({
       .collect()
   },
 })
+
+export const userHasProjects = query({
+  args: {
+    privyDid: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .first()
+
+    if (!user) return false
+
+    const projects = await ctx.db
+      .query('projects')
+      .withIndex('by_userId', (q) => q.eq('userId', user._id))
+      .first()
+
+    return projects !== null
+  },
+})

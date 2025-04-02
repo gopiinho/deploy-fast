@@ -4,7 +4,7 @@ import './globals.css'
 import { Providers } from '../components/providers/providers'
 import { PostHogProvider } from '../components/providers/analytics-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
-import AuthState from '@/components/auth/auth-state'
+import AuthWrapper from '@/components/auth/auth-wrapper'
 import Navigator from '@/components/navigator'
 import Footer from '@/components/footer'
 
@@ -41,9 +41,8 @@ export default function RootLayout({
         >
           <PostHogProvider>
             <Providers>
-              <AuthState />
               <Navigator />
-              {children}
+              <AuthWrapper>{children}</AuthWrapper>
               <Footer />
             </Providers>
           </PostHogProvider>

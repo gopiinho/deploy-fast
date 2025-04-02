@@ -5,14 +5,17 @@ import { useAccount, useDisconnect } from 'wagmi'
 import { api } from '../../../convex/_generated/api'
 import { useMutation } from 'convex/react'
 
-export default function AuthState() {
+export default function LoginState({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const {
     ready: privyReady,
     user: privyUser,
     authenticated: privyAuthenticated,
     logout,
   } = usePrivy()
-
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
 
@@ -94,5 +97,5 @@ export default function AuthState() {
     logout,
     disconnect,
   ])
-  return null
+  return <>{children}</>
 }
