@@ -7,15 +7,15 @@ export const createProject = mutation({
     privyDid: v.string(),
     name: v.string(),
   },
-  handler: async (ctx, { privyDid, name }) => {
-    const projectName = name.trim()
+  handler: async (ctx, args) => {
+    const projectName = args.name.trim()
     if (!projectName) {
       throw new Error('Project name cannot be empty.')
     }
 
     const user = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
       .first()
 
     if (!user) {
@@ -45,14 +45,14 @@ export const createProject = mutation({
   },
 })
 
-export const getMyProjects = query({
+export const getUserProjects = query({
   args: {
     privyDid: v.string(),
   },
-  handler: async (ctx, { privyDid }) => {
+  handler: async (ctx, args) => {
     const user = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
       .first()
 
     if (!user) return []

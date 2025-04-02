@@ -2,6 +2,28 @@ import { mutation, query } from './_generated/server'
 import { Doc } from './_generated/dataModel'
 import { v } from 'convex/values'
 
+export const getUserByPrivyDid = query({
+  args: { privyDid: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .unique()
+    return user
+  },
+})
+
+export const getUser = query({
+  args: { privyDid: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .unique()
+    return user
+  },
+})
+
 export const createUser = mutation({
   args: {
     privyDid: v.string(),
@@ -9,23 +31,22 @@ export const createUser = mutation({
     name: v.string(),
     wallet: v.optional(v.string()),
   },
-  handler: async (ctx, { privyDid, email, name, wallet }) => {
+  handler: async (ctx, args) => {
     const existingUser = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
-      .first()
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .unique()
 
     if (existingUser) {
       return existingUser._id
-    } else {
-      const userId = await ctx.db.insert('users', {
-        privyDid,
-        email,
-        name,
-        wallet,
-      })
-      return userId
     }
+    const userId = await ctx.db.insert('users', {
+      privyDid: args.privyDid,
+      email: args.email,
+      name: args.name,
+      wallet: args.wallet,
+    })
+    return userId
   },
 })
 
@@ -33,14 +54,14 @@ export const getUserAndProjectCount = query({
   args: {
     privyDid: v.string(),
   },
-  handler: async (ctx, { privyDid }) => {
+  handler: async (ctx, args) => {
     const user: Doc<'users'> | null = await ctx.db
       .query('users')
-      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
       .first()
 
     if (!user) {
-      console.warn(`User not found for privyDid: ${privyDid}`)
+      console.warn(`User not found for privyDid: ${args.privyDid}`)
       return null
     }
 
@@ -50,16 +71,5 @@ export const getUserAndProjectCount = query({
       .collect()
 
     return { userId: user._id, projectCount: projects.length }
-  },
-})
-
-export const getMyUser = query({
-  args: { privyDid: v.string() },
-  handler: async (ctx, { privyDid }) => {
-    const user = await ctx.db
-      .query('users')
-      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
-      .unique()
-    return user
   },
 })

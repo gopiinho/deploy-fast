@@ -1,60 +1,98 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useAccount, useDisconnect } from 'wagmi'
 import { api } from '../../../convex/_generated/api'
 import { useMutation } from 'convex/react'
 
 export default function AuthState() {
-  const { ready, user, authenticated, logout } = usePrivy()
+  const {
+    ready: privyReady,
+    user: privyUser,
+    authenticated: privyAuthenticated,
+    logout,
+  } = usePrivy()
+
   const { isConnected } = useAccount()
   const { disconnect } = useDisconnect()
+
   const createUser = useMutation(api.users.createUser)
 
+  const previouslyConnectedRef = useRef(false)
+  const syncAttemptedInSessionRef = useRef(false)
   const walletCheckTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const previouslyConnected = useRef(false)
 
   useEffect(() => {
-    const syncUserToConvex = async () => {
-      if (ready && authenticated && user) {
-        try {
-          await createUser({
-            privyDid: user.id,
-            email: user.email?.address || undefined,
-            name: user.google?.name || user.twitter?.name || 'Anonymous',
-            wallet: user.wallet?.address || undefined,
-          })
-        } catch (error) {
-          console.error('Error syncing user to Convex:', error)
-        }
-      }
-    }
-
-    if (walletCheckTimeoutRef.current) {
-      clearTimeout(walletCheckTimeoutRef.current)
-    }
-
-    if (isConnected) {
-      previouslyConnected.current = true
-    }
-
-    if (authenticated) {
-      syncUserToConvex()
-
-      walletCheckTimeoutRef.current = setTimeout(() => {
-        if (!isConnected && previouslyConnected.current) {
-          logout()
-          disconnect()
-          previouslyConnected.current = false
-        }
-      }, 2000)
-    }
-    return () => {
+    const cleanup = () => {
       if (walletCheckTimeoutRef.current) {
         clearTimeout(walletCheckTimeoutRef.current)
+        walletCheckTimeoutRef.current = null
       }
     }
-  }, [authenticated, isConnected, user, createUser, logout, disconnect])
+    cleanup()
 
+    if (!privyReady) {
+      return cleanup
+    }
+
+    if (privyAuthenticated && privyUser) {
+      if (!syncAttemptedInSessionRef.current) {
+        syncAttemptedInSessionRef.current = true
+
+        createUser({
+          privyDid: privyUser.id,
+
+          email: privyUser.email?.address,
+          name:
+            privyUser.google?.name ??
+            privyUser.twitter?.name ??
+            privyUser.email?.address ??
+            'Anonymous',
+          wallet: privyUser.wallet?.address,
+        })
+          .then((userId) => {
+            console.log(
+              'Convex user sync/create successful or user exists. User ID:',
+              userId
+            )
+          })
+          .catch((error) => {
+            console.error('Error syncing user to Convex:', error)
+          })
+      }
+
+      if (isConnected) {
+        previouslyConnectedRef.current = true
+      }
+      if (walletCheckTimeoutRef.current)
+        clearTimeout(walletCheckTimeoutRef.current)
+
+      walletCheckTimeoutRef.current = setTimeout(() => {
+        if (!isConnected && previouslyConnectedRef.current) {
+          console.log(
+            'Wallet disconnected after being connected during session. Logging out Privy and disconnecting wallet.'
+          )
+          previouslyConnectedRef.current = false
+          syncAttemptedInSessionRef.current = false
+          logout().catch((err) => console.error('Privy logout failed:', err))
+          disconnect()
+        }
+        walletCheckTimeoutRef.current = null
+      }, 2000)
+    } else {
+      previouslyConnectedRef.current = false
+      syncAttemptedInSessionRef.current = false
+    }
+
+    return cleanup
+  }, [
+    privyReady,
+    privyAuthenticated,
+    privyUser,
+    isConnected,
+    createUser,
+    logout,
+    disconnect,
+  ])
   return null
 }
