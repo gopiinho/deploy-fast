@@ -47,7 +47,9 @@ export default function Projects() {
                   Delete
                 </Button>
                 <Link href={`/projects/${project.slug}`}>
-                  <Button size={'sm'}>View</Button>
+                  <Button variant={'outline'} size={'sm'}>
+                    View
+                  </Button>
                 </Link>
               </div>
             </div>
