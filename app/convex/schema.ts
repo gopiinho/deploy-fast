@@ -8,8 +8,12 @@ export default defineSchema({
     name: v.string(),
     wallet: v.optional(v.string()),
   }).index('by_privyDid', ['privyDid']),
+
   projects: defineTable({
     userId: v.id('users'),
     name: v.string(),
-  }).index('by_userId', ['userId']),
+    slug: v.optional(v.string()),
+  })
+    .index('by_userId', ['userId'])
+    .index('by_slug', ['slug']),
 })

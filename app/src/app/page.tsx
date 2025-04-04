@@ -1,16 +1,8 @@
 'use client'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { usePrivy } from '@privy-io/react-auth'
 import { Button } from '@/components/ui/button'
 
 export default function Home() {
-  const { ready, authenticated } = usePrivy()
-  const router = useRouter()
-
-  if (ready && authenticated) {
-    router.push('/contracts')
-  }
   return (
     <section className="flex min-h-[calc(100vh-120px)] justify-center px-4 py-[20%] font-[family-name:var(--font-geist-sans)] sm:px-8 sm:py-[10%] lg:px-20">
       <div className="flex h-full flex-col items-center justify-center gap-12">

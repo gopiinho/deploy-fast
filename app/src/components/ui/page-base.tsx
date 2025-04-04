@@ -1,7 +1,7 @@
 interface PageBaseProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   title: string
-  description: string
+  description?: string
 }
 
 export default function PageBase({

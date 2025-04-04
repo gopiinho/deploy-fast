@@ -1,6 +1,9 @@
+'use client'
+import Link from 'next/link'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSunnyOutline } from 'react-icons/io5'
 import { IoMoonOutline } from 'react-icons/io5'
+
 import { usePrivy } from '@privy-io/react-auth'
 import { useTheme } from 'next-themes'
 import {
@@ -35,6 +38,9 @@ export default function NavProfile() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Link href={'/projects'}>Your Projects</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Your Account</DropdownMenuItem>
           <DropdownMenuItem onClick={toggleTheme}>
             Theme
