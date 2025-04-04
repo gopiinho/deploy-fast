@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { api } from '../../convex/_generated/api'
 import { useQuery, useMutation } from 'convex/react'
 import { usePrivy } from '@privy-io/react-auth'
@@ -48,7 +48,7 @@ export const useSyncUserAndProjects = () => {
     }
   }, [privyDid, setPrivyDid, currentPrivyDid])
 
-  useEffect(() => {
+  useMemo(() => {
     if (
       privyReady &&
       privyAuthenticated &&
@@ -123,9 +123,11 @@ export const useSyncUserAndProjects = () => {
     projectsData,
     userData,
     storeIsLoading,
+    hasProjectsData,
     _setLoading,
     _setProjects,
     setPrivyDid,
     _setConvexUserId,
+    _setHasProjects,
   ])
 }

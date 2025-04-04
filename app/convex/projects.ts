@@ -34,9 +34,6 @@ export const createProject = mutation({
       slug: slug,
     })
 
-    console.log(
-      `Project '${projectName}' created with slug '${slug}' for user ${user._id}`
-    )
     return {
       _id: projectId,
       slug: slug,
@@ -83,5 +80,36 @@ export const userHasProjects = query({
       .first()
 
     return projects !== null
+  },
+})
+
+export const deleteProject = mutation({
+  args: {
+    projectId: v.id('projects'),
+    privyDid: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .first()
+
+    if (!user) {
+      throw new Error('User not found.')
+    }
+
+    const project = await ctx.db.get(args.projectId)
+
+    if (!project) {
+      throw new Error('Project not found.')
+    }
+
+    if (project.userId !== user._id) {
+      throw new Error('Unauthorized to delete this project.')
+    }
+
+    await ctx.db.delete(args.projectId)
+
+    return { success: true }
   },
 })

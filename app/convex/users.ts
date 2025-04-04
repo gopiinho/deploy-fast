@@ -61,7 +61,6 @@ export const getUserAndProjectCount = query({
       .first()
 
     if (!user) {
-      console.warn(`User not found for privyDid: ${args.privyDid}`)
       return null
     }
 
