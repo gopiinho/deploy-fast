@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useState } from 'react'
 import { useUserStore } from '@/state/userStore'
 import { IoIosArrowUp } from 'react-icons/io'
@@ -14,10 +15,13 @@ import {
 import { Button } from '../ui/button'
 import CreateProject from './create-project'
 import { useCreateProjectStore } from '@/state/createProjectStore'
+import { Doc } from '../../../convex/_generated/dataModel'
+
+type ProjectDoc = Doc<'projects'>
 
 export function ProjectsTab() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const { projects } = useUserStore()
+  const { projects, activeProject, setActiveProject } = useUserStore()
   const { open, setOpen } = useCreateProjectStore()
 
   const handleCreateProject = () => {
@@ -25,12 +29,19 @@ export function ProjectsTab() {
     setDropdownOpen(false)
   }
 
+  const handleProjectSelect = (project: ProjectDoc) => {
+    setActiveProject(project)
+    setDropdownOpen(false)
+  }
+
   return (
     <div className="flex min-w-20 items-center gap-3">
-      <span>Project</span>
+      <span className="text-foreground">
+        {activeProject ? activeProject.name : 'Loading...'}
+      </span>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
-          <div className="hover:bg-primary-foreground flex cursor-pointer flex-col rounded-xl p-1 duration-150">
+          <div className="hover:bg-primary-foreground flex cursor-pointer flex-col rounded-xl p-2 duration-150">
             <IoIosArrowUp size={10} /> <IoIosArrowDown size={10} />
           </div>
         </DropdownMenuTrigger>
@@ -40,7 +51,15 @@ export function ProjectsTab() {
           <DropdownMenuGroup className="text-foreground">
             {projects && projects.length > 0 ? (
               projects.map((project) => (
-                <DropdownMenuItem key={project._id}>
+                <DropdownMenuItem
+                  key={project._id}
+                  onClick={() => handleProjectSelect(project)}
+                  className={`cursor-pointer ${
+                    project._id === activeProject?._id
+                      ? 'bg-primary-foreground'
+                      : ''
+                  }`}
+                >
                   {project.name}
                 </DropdownMenuItem>
               ))

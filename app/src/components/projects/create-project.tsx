@@ -54,6 +54,9 @@ export default function CreateProject({ close }: CreateProjectProps) {
         setName('')
         form.reset({ projectName: '' })
         toast.success('Project created successfully!')
+        if (close) {
+          close()
+        }
       }
       setLoading(false)
     } catch (error) {
