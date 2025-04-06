@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSunnyOutline } from 'react-icons/io5'
 import { IoMoonOutline } from 'react-icons/io5'
+import { CiWallet } from 'react-icons/ci'
 
 import { usePrivy } from '@privy-io/react-auth'
 import { useTheme } from 'next-themes'
@@ -33,15 +34,16 @@ export default function NavProfile() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-muted-foreground mr-4 w-56 lg:mr-6">
-        <div className="hover:bg-accent w-full cursor-pointer rounded-sm border p-2 duration-150">
+        <div className="hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-2 rounded-sm border p-2 duration-150">
           {user.wallet?.address ? shortenAddress(user.wallet.address) : 'N/A'}
+          <CiWallet />
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Link href={'/projects'}>Your Projects</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>Your Account</DropdownMenuItem>
+          {/* <DropdownMenuItem>Your Account</DropdownMenuItem> */}
           <DropdownMenuItem onClick={toggleTheme}>
             Theme
             <DropdownMenuShortcut>

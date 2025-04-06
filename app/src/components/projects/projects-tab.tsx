@@ -35,9 +35,15 @@ export function ProjectsTab() {
   }
 
   return (
-    <div className="flex min-w-20 items-center gap-3">
-      <span className="text-foreground">
-        {activeProject ? activeProject.name : 'Loading...'}
+    <div className="flex min-w-20 items-center gap-1">
+      <span className="text-foreground font-semibold">
+        {activeProject ? (
+          <Link className="p-2" href={`/projects/${activeProject?.slug}`}>
+            {activeProject.name}
+          </Link>
+        ) : (
+          'Loading...'
+        )}
       </span>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
