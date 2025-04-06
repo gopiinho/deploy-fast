@@ -16,4 +16,12 @@ export default defineSchema({
   })
     .index('by_userId', ['userId'])
     .index('by_slug', ['slug']),
+
+  contracts: defineTable({
+    projectId: v.id('projects'),
+    address: v.string(),
+    name: v.optional(v.string()),
+  })
+    .index('by_projectId', ['projectId'])
+    .index('by_address', ['address']),
 })
