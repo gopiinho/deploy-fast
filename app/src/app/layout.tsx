@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'DeployFast | No Code Smart Contracts',
-  description: 'Deplop smart contracts without writing a single line of code.',
+  description: 'Deploy smart contracts without writing a single line of code.',
 }
 
 export default function RootLayout({
