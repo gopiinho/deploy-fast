@@ -1,4 +1,4 @@
-import ItemCardList from '@/components/contracts/contracts-list'
+import ContractsList from '@/components/contracts/contracts-list'
 import PageBase from '@/components/ui/page-base'
 import PageContent from '@/components/ui/page-content'
 
@@ -10,7 +10,7 @@ export default function Contracts() {
       hasHeader
     >
       <PageContent>
-        <ItemCardList />
+        <ContractsList />
       </PageContent>
     </PageBase>
   )

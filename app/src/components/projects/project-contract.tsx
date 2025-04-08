@@ -17,8 +17,7 @@ type ProjectDoc = Doc<'projects'>
 
 export default function ProjectContract() {
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const { activeProject, projects, hasProjects, setActiveProject } =
-    useUserStore()
+  const { activeProject, projects, setActiveProject } = useUserStore()
 
   const handleProjectSelect = (project: ProjectDoc) => {
     setActiveProject(project)

@@ -18,26 +18,28 @@ interface ContractItemProps {
 
 function ContractItem({ title, description, path }: ContractItemProps) {
   return (
-    <ItemCard>
-      <ItemCardHeader>
-        <ItemCardTitle>
-          {title} <span className="text-sm text-green-400">New</span>
-        </ItemCardTitle>
-        <ItemCardDescription>{description}</ItemCardDescription>
-      </ItemCardHeader>
-      <ItemCardFooter>
-        <Link href={path}>
-          <Button variant={'deploy'} size={'sm'}>
-            Deploy
-            <LuRocket size={50} />
-          </Button>
-        </Link>
-      </ItemCardFooter>
-    </ItemCard>
+    <Link href={path}>
+      <ItemCard>
+        <ItemCardHeader>
+          <ItemCardTitle>
+            {title} <span className="text-sm text-green-400">New</span>
+          </ItemCardTitle>
+          <ItemCardDescription>{description}</ItemCardDescription>
+        </ItemCardHeader>
+        <ItemCardFooter>
+          <Link href={path}>
+            <Button variant={'deploy'} size={'sm'}>
+              Deploy
+              <LuRocket size={50} />
+            </Button>
+          </Link>
+        </ItemCardFooter>
+      </ItemCard>
+    </Link>
   )
 }
 
-export default function ItemCardList() {
+export default function ContractsList() {
   return (
     <div className="grid w-full grid-cols-1 justify-between gap-4 py-3 sm:grid-cols-2 lg:grid-cols-3">
       {contracts.map(({ title, description, path }) => (

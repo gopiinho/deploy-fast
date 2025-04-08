@@ -3,12 +3,14 @@ import { useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
-import { useWriteContract } from 'wagmi'
+import { usePublicClient, useWriteContract } from 'wagmi'
 import { Address, parseEther } from 'viem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useMutation } from 'convex/react'
 
+import { api } from '../../../convex/_generated/api'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import {
@@ -19,17 +21,27 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import useErc20FormStore from '@/state/erc20FormStore'
+import { useUserStore } from '@/state/userStore'
 import { FormBlock } from '../form-block'
 import { FormTag } from '../form-tag'
 import { dfManagerAbi } from '@/lib/dfManagerAbi'
 import { DF_MANAGER } from '@/lib/constants'
 import Confirmation from './confirmation'
+import ProjectContract from '../projects/project-contract'
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  symbol: z.string().min(2).max(50),
-  mintAmount: z.coerce.number().min(1),
-  recipient: z.string(),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(60, 'Name cannot exceed 60 characters'),
+  symbol: z
+    .string()
+    .min(2, 'Symbol must be at least 2 characters')
+    .max(50, 'Symbol cannot exceed 50 characters'),
+  mintAmount: z.coerce.number().min(1, 'Mint amount must be at least 1'),
+  recipient: z.string().refine((addr) => /^0x[a-fA-F0-9]{40}$/.test(addr), {
+    message: 'Invalid Ethereum address format',
+  }),
 })
 
 export default function TokenForm() {
@@ -47,6 +59,10 @@ export default function TokenForm() {
     loading,
     setLoading,
   } = useErc20FormStore()
+  const { activeProject } = useUserStore()
+  const client = usePublicClient()
+
+  const addContractToProject = useMutation(api.contracts.createContract)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,7 +83,8 @@ export default function TokenForm() {
   async function handleDeployToken(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true)
-      await writeContractAsync({
+
+      const hash = await writeContractAsync({
         abi: dfManagerAbi,
         address: DF_MANAGER,
         functionName: '_deployErc20',
@@ -78,7 +95,22 @@ export default function TokenForm() {
           values.recipient as Address,
         ],
       })
+
+      if (client) {
+        const tx = await client?.waitForTransactionReceipt({ hash })
+
+        const returnedAddy = tx.logs[0].address
+
+        if (activeProject && returnedAddy) {
+          await addContractToProject({
+            address: returnedAddy,
+            projectId: activeProject?._id,
+          })
+        }
+      }
+
       setLoading(false)
+      setConfirming(false)
     } catch (error) {
       setLoading(false)
       if (error instanceof Error) {
@@ -89,6 +121,7 @@ export default function TokenForm() {
 
   async function handleOpenConfirmation() {
     const isValid = await form.trigger()
+
     if (isValid) {
       setConfirming(true)
     }
@@ -186,6 +219,18 @@ export default function TokenForm() {
                     </FormItem>
                   )}
                 />
+              </div>
+            </div>
+          </FormBlock>
+          <FormBlock title="Add To Project">
+            <div className="flex flex-col gap-4">
+              <div className="flex w-full flex-col gap-2">
+                <FormTag
+                  title="Project"
+                  isRequired
+                  description="Save the deployed contract in a project's contract list on deployfast dashboard"
+                />
+                <ProjectContract />
               </div>
             </div>
           </FormBlock>
