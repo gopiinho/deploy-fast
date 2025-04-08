@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
@@ -273,7 +273,7 @@ export default function TokenForm() {
           )}
           {deployStatus !== DeployStatusType.Idle ? (
             <DeployStatus
-              path="/projects/"
+              // path="/projects/"
               status={deployStatus}
               close={() => setDeployStatus(DeployStatusType.Idle)}
             />

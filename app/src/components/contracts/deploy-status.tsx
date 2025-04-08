@@ -1,17 +1,17 @@
-import Link from 'next/link'
+// import Link from 'next/link'
 import { CiCircleCheck, CiCircleInfo } from 'react-icons/ci'
 
 import { Button } from '../ui/button'
 import { DeployStatusType } from '@/lib/types'
 
 interface DeployStatusProps {
-  path: string
+  // path: string
   status: DeployStatusType
   close: () => void
 }
 
 export default function DeployStatus({
-  path,
+  // path,
   status,
   close,
 }: DeployStatusProps) {
