@@ -4,6 +4,7 @@ import { useUserStore } from '@/state/userStore'
 import { IoIosArrowUp } from 'react-icons/io'
 import { IoIosArrowDown } from 'react-icons/io'
 import { CiCirclePlus } from 'react-icons/ci'
+import { HiOutlineCube } from 'react-icons/hi'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,10 +36,16 @@ export function ProjectsTab() {
   }
 
   return (
-    <div className="flex min-w-20 items-center gap-1">
+    <div className="flex min-w-20 items-center gap-1 max-sm:hidden">
       <span className="text-foreground font-semibold">
         {activeProject ? (
-          <Link className="p-2" href={`/projects/${activeProject?.slug}`}>
+          <Link
+            className="flex items-center gap-2 p-2"
+            href={`/projects/${activeProject?.slug}`}
+          >
+            <span className="rounded-full border p-1">
+              <HiOutlineCube size={14} />
+            </span>
             {activeProject.name}
           </Link>
         ) : (
@@ -66,6 +73,9 @@ export function ProjectsTab() {
                       : ''
                   }`}
                 >
+                  <span className="rounded-full border p-1">
+                    <HiOutlineCube size={14} />
+                  </span>
                   {project.name}
                 </DropdownMenuItem>
               ))

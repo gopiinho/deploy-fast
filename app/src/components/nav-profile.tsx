@@ -40,9 +40,9 @@ export default function NavProfile() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href={'/projects'}>Your Projects</Link>
-          </DropdownMenuItem>
+          <Link href={'/projects'}>
+            <DropdownMenuItem>Your Projects</DropdownMenuItem>
+          </Link>
           {/* <DropdownMenuItem>Your Account</DropdownMenuItem> */}
           <DropdownMenuItem onClick={toggleTheme}>
             Theme
