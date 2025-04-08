@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
@@ -20,7 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import useErc20FormStore from '@/state/erc20FormStore'
+import { useErc20FormStore } from '@/state/erc20FormStore'
 import { useUserStore } from '@/state/userStore'
 import { FormBlock } from '../form-block'
 import { FormTag } from '../form-tag'
@@ -28,6 +28,8 @@ import { dfManagerAbi } from '@/lib/dfManagerAbi'
 import { DF_MANAGER } from '@/lib/constants'
 import Confirmation from './confirmation'
 import ProjectContract from '../projects/project-contract'
+import DeployStatus from './deploy-status'
+import { DeployStatusType } from '@/lib/types'
 
 const formSchema = z.object({
   name: z
@@ -58,6 +60,8 @@ export default function TokenForm() {
     setConfirming,
     loading,
     setLoading,
+    deployStatus,
+    setDeployStatus,
   } = useErc20FormStore()
   const { activeProject } = useUserStore()
   const client = usePublicClient()
@@ -96,6 +100,8 @@ export default function TokenForm() {
         ],
       })
 
+      setDeployStatus(DeployStatusType.Deploying)
+
       if (client) {
         const tx = await client?.waitForTransactionReceipt({ hash })
 
@@ -111,6 +117,7 @@ export default function TokenForm() {
 
       setLoading(false)
       setConfirming(false)
+      setDeployStatus(DeployStatusType.Deployed)
     } catch (error) {
       setLoading(false)
       if (error instanceof Error) {
@@ -264,6 +271,13 @@ export default function TokenForm() {
               isLoading={loading}
             />
           )}
+          {deployStatus !== DeployStatusType.Idle ? (
+            <DeployStatus
+              path="/projects/"
+              status={deployStatus}
+              close={() => setDeployStatus(DeployStatusType.Idle)}
+            />
+          ) : null}
         </form>
       </Form>
     </section>
