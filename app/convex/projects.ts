@@ -22,6 +22,23 @@ export const createProject = mutation({
       throw new Error('User not found.')
     }
 
+    const existingProjects = await ctx.db
+      .query('projects')
+      .withIndex('by_userId', (q) => q.eq('userId', user._id))
+      .collect()
+
+    const duplicateProject = existingProjects.find(
+      (p) => p.name.toLowerCase() === projectName.toLowerCase()
+    )
+
+    if (duplicateProject) {
+      throw new Error('Project name already exists.')
+    }
+
+    if (existingProjects.length >= 5) {
+      throw new Error('You can have a maximum of 5 projects.')
+    }
+
     let slug = slugify(projectName, {
       lower: true,
       strict: true,

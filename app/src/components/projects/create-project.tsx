@@ -19,6 +19,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { extractConvexError } from '@/lib/extractConvexError'
 
 interface CreateProjectProps {
   close?: () => void
@@ -60,7 +61,10 @@ export default function CreateProject({ close }: CreateProjectProps) {
       }
       setLoading(false)
     } catch (error) {
-      console.log(error)
+      const errorMessage = extractConvexError(error)
+      toast.error(errorMessage)
+    } finally {
+      setLoading(false)
     }
   }
 
