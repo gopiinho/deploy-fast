@@ -23,9 +23,9 @@ export const useSyncUserAndProjects = () => {
   const storeIsLoading = useUserStore((state) => state.isLoading)
 
   const createUser = useMutation(api.users.createUser)
-  const createAttemptedForDid = useRef<string | null>(null)
+  const createAttemptedForDid = useRef<string | undefined>(undefined)
 
-  const privyDid = privyReady && privyAuthenticated ? privyUser?.id : null
+  const privyDid = privyReady && privyAuthenticated ? privyUser?.id : undefined
 
   const userData = useQuery(
     api.users.getUserAndProjectCount,
@@ -44,7 +44,7 @@ export const useSyncUserAndProjects = () => {
 
   useEffect(() => {
     if (privyDid !== currentPrivyDid) {
-      setPrivyDid(privyDid || null)
+      setPrivyDid(privyDid || undefined)
     }
   }, [privyDid, setPrivyDid, currentPrivyDid])
 
@@ -54,7 +54,7 @@ export const useSyncUserAndProjects = () => {
       privyAuthenticated &&
       privyUser &&
       privyDid &&
-      userData === null &&
+      userData === undefined &&
       createAttemptedForDid.current !== privyDid
     ) {
       createAttemptedForDid.current = privyDid
@@ -100,20 +100,20 @@ export const useSyncUserAndProjects = () => {
       if (projectsData !== undefined) {
         _setProjects(projectsData)
       } else {
-        _setProjects(null)
+        _setProjects(undefined)
       }
       if (userData?.userId) {
         _setConvexUserId(userData.userId)
       } else {
-        _setConvexUserId(null)
+        _setConvexUserId(undefined)
       }
       if (hasProjectsData !== undefined) {
         _setHasProjects(hasProjectsData)
       }
     } else if (!privyDid && !storeIsLoading) {
-      setPrivyDid(null)
-      _setProjects(null)
-      _setConvexUserId(null)
+      setPrivyDid(undefined)
+      _setProjects(undefined)
+      _setConvexUserId(undefined)
       _setLoading(false)
     }
   }, [

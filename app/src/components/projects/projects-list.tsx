@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table'
 
 interface ProjectsListProps {
-  projects: Doc<'projects'>[] | null
+  projects: Doc<'projects'>[] | undefined
   onDelete: (projectId: Id<'projects'>) => void
 }
 

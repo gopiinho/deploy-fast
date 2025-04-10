@@ -3,51 +3,37 @@ import { Doc, Id } from '../../convex/_generated/dataModel'
 import { persist } from 'zustand/middleware'
 
 interface UserState {
-  privyDid: string | null
-  convexUserId: Id<'users'> | null
-  projects: Doc<'projects'>[] | null
-  activeProject: Doc<'projects'> | null
-  hasProjects: boolean | null
+  privyDid: string | undefined
+  convexUserId: Id<'users'> | undefined
+  projects: Doc<'projects'>[] | undefined
+  activeProject: Doc<'projects'> | undefined
+  hasProjects: boolean | undefined
   isLoading: boolean
-  setPrivyDid: (did: string | null) => void
-  syncProjects: (did: string | null) => void
+  setPrivyDid: (did: string | undefined) => void
   setActiveProject: (project: Doc<'projects'>) => void
-  _setProjects: (projects: Doc<'projects'>[] | null) => void
+  _setProjects: (projects: Doc<'projects'>[] | undefined) => void
   _setLoading: (loading: boolean) => void
-  _setConvexUserId: (id: Id<'users'> | null) => void
-  _setHasProjects: (hasProjects: boolean | null) => void
+  _setConvexUserId: (id: Id<'users'> | undefined) => void
+  _setHasProjects: (hasProjects: boolean | undefined) => void
 }
 
 export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
-      privyDid: null,
-      convexUserId: null,
-      projects: null,
-      activeProject: null,
-      hasProjects: null,
+      privyDid: undefined,
+      convexUserId: undefined,
+      projects: undefined,
+      activeProject: undefined,
+      hasProjects: undefined,
       isLoading: true,
       setPrivyDid: (did) =>
         set({
           privyDid: did,
         }),
-      syncProjects: async (did) => {
-        if (!did) {
-          set({
-            projects: null,
-            activeProject: null,
-            hasProjects: null,
-            isLoading: false,
-            convexUserId: null,
-          })
-          return
-        }
-        set({ isLoading: true })
-      },
       _setProjects: (projects) => {
         const currentActive = get().activeProject
         const latestProject =
-          projects && projects.length > 0 ? projects[0] : null
+          projects && projects.length > 0 ? projects[0] : undefined
 
         set({
           projects: projects,
