@@ -109,6 +109,7 @@ export default function TokenForm() {
 
         if (activeProject && returnedAddy) {
           await addContractToProject({
+            name: values.name,
             address: returnedAddy,
             projectId: activeProject?._id,
           })
