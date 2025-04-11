@@ -1,5 +1,3 @@
-import ProjectOptions from './project-options'
-
 interface ProjectWrapperProps {
   children: React.ReactNode
 }

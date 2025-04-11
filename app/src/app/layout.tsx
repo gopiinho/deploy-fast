@@ -7,7 +7,6 @@ import { PostHogProvider } from '../components/providers/analytics-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import AuthWrapper from '@/components/auth/auth-wrapper'
 import Navigator from '@/components/navigator'
-import Footer from '@/components/footer'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
