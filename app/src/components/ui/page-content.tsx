@@ -3,5 +3,5 @@ interface PageBaseProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function PageContent({ children }: PageBaseProps) {
-  return <section className="px-4 lg:px-6">{children}</section>
+  return <section className="w-full px-4 lg:px-6">{children}</section>
 }

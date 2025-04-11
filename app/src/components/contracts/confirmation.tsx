@@ -74,7 +74,7 @@ export default function Confirmation({
             <div className="mt-4 flex w-full justify-between space-x-2">
               <Button size={'full'} type="submit">
                 {isLoading ? (
-                  <MoonLoader size={20} />
+                  <MoonLoader size={20} color="var(--foreground)" />
                 ) : (
                   <>
                     Deploy Now <MdUpload />

@@ -46,7 +46,6 @@ export default function RootLayout({
                 <Navigator />
                 {children}
                 <Toaster richColors />
-                <Footer />
               </AuthWrapper>
             </Providers>
           </PostHogProvider>
