@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { HiOutlineCube } from 'react-icons/hi'
 import { useUserStore } from '@/state/userStore'
 import { Doc, Id } from '../../../convex/_generated/dataModel'
 import { Button } from '@/components/ui/button'
@@ -43,7 +44,12 @@ export default function ProjectsList({
                 >
                   <span className="sr-only">View project {project.name}</span>
                 </Link>
-                {project.name}
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full border p-1">
+                    <HiOutlineCube size={14} />
+                  </span>
+                  {project.name}
+                </div>
               </TableCell>
               <TableCell>
                 {new Date(project._creationTime).toLocaleDateString('en-US', {
