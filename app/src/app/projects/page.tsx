@@ -1,7 +1,7 @@
 'use client'
 import { useMutation } from 'convex/react'
 import { toast } from 'sonner'
-import { CiCirclePlus } from 'react-icons/ci'
+import { FaPlus } from 'react-icons/fa6'
 
 import { Id } from '../../../convex/_generated/dataModel'
 import { api } from '../../../convex/_generated/api'
@@ -54,12 +54,8 @@ export default function Projects() {
             <div className="flex flex-col px-4 lg:px-6">
               <div className="bg-primary-foreground flex justify-between rounded-t-xl border p-4 sm:p-6">
                 <h3 className="text-2xl font-semibold">Projects</h3>
-                <Button
-                  size={'lg'}
-                  className="rounded-sm"
-                  onClick={handleCreateProject}
-                >
-                  <CiCirclePlus /> Create Project
+                <Button size={'lg'} onClick={handleCreateProject}>
+                  <FaPlus /> Create Project
                 </Button>
               </div>
               <ProjectsList
@@ -78,7 +74,7 @@ export default function Projects() {
               className="rounded-sm"
               onClick={handleCreateProject}
             >
-              <CiCirclePlus /> Create Project
+              <FaPlus /> Create Project
             </Button>
             {open ? <CreateProject close={() => setOpen(false)} /> : null}
           </div>

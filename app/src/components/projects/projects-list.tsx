@@ -26,11 +26,11 @@ export default function ProjectsList({
   return (
     <div className="grid">
       <Table>
-        <TableHeader className="overflow-hidden rounded-t-sm">
+        <TableHeader>
           <TableRowHeader>
-            <TableHead className="w-[70%] py-2">Project</TableHead>
-            <TableHead className="w-[15%] py-2">Created</TableHead>
-            <TableHead className="w-[15%] py-2">Actions</TableHead>
+            <TableHead className="w-[70%]">Project</TableHead>
+            <TableHead className="w-[15%]">Created</TableHead>
+            <TableHead className="w-[15%]">Actions</TableHead>
           </TableRowHeader>
         </TableHeader>
         <TableBody>
