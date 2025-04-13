@@ -5,7 +5,7 @@ import { ProjectsTab } from './projects/projects-tab'
 
 export default function AppNavigator() {
   return (
-    <section className="border-primary-foreground my-auto flex h-16 w-full items-center justify-between border-b text-base sm:h-20">
+    <header className="border-primary-foreground my-auto flex h-16 w-full items-center justify-between border-b text-base sm:h-20">
       <div className="flex items-center gap-4">
         <Link href={'/'}>
           <h2 className="text-xl font-semibold">DeployFast</h2>
@@ -16,6 +16,6 @@ export default function AppNavigator() {
       <div className="flex gap-2">
         <NavProfile />
       </div>
-    </section>
+    </header>
   )
 }
