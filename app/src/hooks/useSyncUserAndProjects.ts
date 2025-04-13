@@ -70,13 +70,9 @@ export const useSyncUserAndProjects = () => {
           privyUser.email?.address ??
           'Anonymous',
         wallet: privyUser.wallet?.address,
+      }).catch((error) => {
+        console.error('Error creating/syncing user:', error)
       })
-        .then((userId) => {
-          console.log('Convex user creation successful. User ID:', userId)
-        })
-        .catch((error) => {
-          console.error('Error creating/syncing user to Convex:', error)
-        })
     }
   }, [
     privyReady,

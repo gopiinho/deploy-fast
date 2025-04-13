@@ -62,7 +62,6 @@ export default function Projects() {
                   <CiCirclePlus /> Create Project
                 </Button>
               </div>
-
               <ProjectsList
                 projects={projects}
                 onDelete={handleDeleteProject}

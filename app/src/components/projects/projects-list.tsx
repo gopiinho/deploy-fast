@@ -10,6 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableRowHeader,
 } from '@/components/ui/table'
 
 interface ProjectsListProps {
@@ -25,12 +26,12 @@ export default function ProjectsList({
   return (
     <div className="grid">
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[70%]">Project</TableHead>
-            <TableHead className="w-[15%]">Created</TableHead>
-            <TableHead className="w-[15%]">Actions</TableHead>
-          </TableRow>
+        <TableHeader className="overflow-hidden rounded-t-sm">
+          <TableRowHeader>
+            <TableHead className="w-[70%] py-2">Project</TableHead>
+            <TableHead className="w-[15%] py-2">Created</TableHead>
+            <TableHead className="w-[15%] py-2">Actions</TableHead>
+          </TableRowHeader>
         </TableHeader>
         <TableBody>
           {projects?.map((project) => (
