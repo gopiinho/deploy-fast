@@ -74,7 +74,7 @@ export const getUserProjects = query({
     return await ctx.db
       .query('projects')
       .withIndex('by_userId', (q) => q.eq('userId', user._id))
-      .order('desc')
+      .order('asc')
       .collect()
   },
 })
