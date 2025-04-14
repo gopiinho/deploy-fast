@@ -12,7 +12,7 @@ export default function PageBase({
   hasHeader,
 }: PageBaseProps) {
   return (
-    <section className="flex min-h-[calc(100vh-129px)] flex-col gap-8 py-4 lg:gap-12 lg:py-8">
+    <section className="flex min-h-screen flex-col gap-8 py-4 lg:gap-12 lg:py-8">
       {hasHeader ? (
         <div className="grid px-4 lg:px-6">
           <h3 className="text-3xl font-semibold sm:text-5xl">{title}</h3>

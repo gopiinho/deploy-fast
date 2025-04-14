@@ -30,7 +30,7 @@ export default function NavProfile() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="hover:border-border group flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-transparent p-[0.5px] duration-150">
-          <div className="bg-accent h-10 w-10 rounded-full border p-1"></div>
+          <div className="bg-muted-foreground h-10 w-10 rounded-full border p-1"></div>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-muted-foreground mr-4 w-56 lg:mr-6">
