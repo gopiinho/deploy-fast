@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { TbNotes } from 'react-icons/tb'
+import { HiDotsVertical } from 'react-icons/hi'
+import { RxCross2 } from 'react-icons/rx'
 import { useUserStore } from '@/state/userStore'
-import { useQuery } from 'convex/react'
+import { useQuery, useMutation } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
 import {
   Table,
@@ -12,10 +14,19 @@ import {
   TableRow,
   TableRowHeader,
 } from '@/components/ui/table'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '../ui/dropdown-menu'
 import { shortenAddress } from '@/lib/helpers'
+import { Id } from '../../../convex/_generated/dataModel'
+import { toast } from 'sonner'
+import { extractConvexError } from '@/lib/extractConvexError'
 
 export default function ProjectContractList() {
-  const { activeProject, convexUserId } = useUserStore()
+  const { activeProject, convexUserId, privyDid } = useUserStore()
 
   const activeProjectId = activeProject?._id
 
@@ -26,14 +37,33 @@ export default function ProjectContractList() {
       : 'skip'
   )
 
+  const deleteContract = useMutation(api.contracts.deleteContract)
+
+  const handleDeleteContract = async (contractId: Id<'contracts'>) => {
+    try {
+      if (!privyDid) {
+        return
+      }
+      const success = await deleteContract({ contractId, privyDid })
+
+      if (success) {
+        toast.success('Contract deleted successfully!')
+      }
+    } catch (error) {
+      const errorMessage = extractConvexError(error)
+      toast.error(errorMessage)
+    }
+  }
+
   return (
     <Table>
       <TableHeaderStyled>
         <TableRowHeader>
-          <TableHead className="w-[40%]">Project</TableHead>
+          <TableHead className="w-[30%]">Project</TableHead>
           <TableHead className="w-[20%]">Type</TableHead>
           <TableHead className="w-[20%]">Address</TableHead>
           <TableHead className="w-[20%]">Created</TableHead>
+          <TableHead className="w-[10%]">Actions</TableHead>
         </TableRowHeader>
       </TableHeaderStyled>
       <TableBody>
@@ -76,6 +106,26 @@ export default function ProjectContractList() {
                         day: 'numeric',
                       }
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <span className="hover:bg-accent hover:text-primary relative z-20 cursor-pointer rounded-sm p-2 duration-150">
+                            <HiDotsVertical />
+                          </span>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="mr-6">
+                          <DropdownMenuItem
+                            className="flex items-center"
+                            onClick={() => handleDeleteContract(contract._id)}
+                          >
+                            <RxCross2 className="text-red-500" /> Remove from
+                            project
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
