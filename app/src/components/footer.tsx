@@ -4,7 +4,7 @@ import { FaGithub } from 'react-icons/fa'
 
 export default function Footer() {
   return (
-    <footer className="border-primary-foreground flex w-full items-center justify-between gap-4 border-t px-4 py-2 text-xl sm:h-10 lg:px-6">
+    <footer className="border-border flex w-full items-center justify-between gap-4 border-t px-4 py-2 text-xl sm:h-10 lg:px-6">
       <div className="text-muted-foreground flex items-center gap-4 text-sm">
         <p>© 2025 deployfast</p>
       </div>

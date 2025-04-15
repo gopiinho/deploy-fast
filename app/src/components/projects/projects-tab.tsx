@@ -54,7 +54,7 @@ export function ProjectsTab() {
       </span>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
-          <div className="hover:bg-primary-foreground flex cursor-pointer flex-col rounded-xl p-2 duration-150">
+          <div className="hover:bg-accent flex cursor-pointer flex-col rounded-xl p-2 duration-150">
             <IoIosArrowUp size={10} /> <IoIosArrowDown size={10} />
           </div>
         </DropdownMenuTrigger>
@@ -68,9 +68,7 @@ export function ProjectsTab() {
                   key={project._id}
                   onClick={() => handleProjectSelect(project)}
                   className={`cursor-pointer ${
-                    project._id === activeProject?._id
-                      ? 'bg-primary-foreground'
-                      : ''
+                    project._id === activeProject?._id ? 'bg-accent' : ''
                   }`}
                 >
                   <span className="rounded-full border p-1">

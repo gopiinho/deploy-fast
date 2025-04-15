@@ -44,7 +44,7 @@ export default function Projects() {
       <PageBase>
         {hasProjects ? (
           <div className="flex flex-col gap-8">
-            <div className="border-primary-foreground flex border-b">
+            <div className="border-border flex border-b">
               <div className="px-4 pb-5 lg:px-6 lg:pb-8">
                 <span className="text-2xl font-semibold sm:text-3xl">
                   Overview
@@ -52,7 +52,7 @@ export default function Projects() {
               </div>
             </div>
             <div className="flex flex-col px-4 lg:px-6">
-              <div className="bg-primary-foreground flex justify-between rounded-t-xl border p-4 sm:p-6">
+              <div className="bg-card flex justify-between rounded-t-xl border p-4 sm:p-6">
                 <h3 className="text-2xl font-semibold">Projects</h3>
                 <Button size={'lg'} onClick={handleCreateProject}>
                   <FaPlus /> Create Project

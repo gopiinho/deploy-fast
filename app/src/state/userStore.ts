@@ -26,15 +26,16 @@ export const useUserStore = create<UserState>()(
       activeProject: undefined,
       hasProjects: undefined,
       isLoading: true,
+
       setPrivyDid: (did) =>
         set({
           privyDid: did,
         }),
+
       _setProjects: (projects) => {
         const currentActive = get().activeProject
         const latestProject =
           projects && projects.length > 0 ? projects[0] : undefined
-
         set({
           projects: projects,
           activeProject: currentActive
@@ -45,6 +46,7 @@ export const useUserStore = create<UserState>()(
           isLoading: false,
         })
       },
+
       setActiveProject: (project) => set({ activeProject: project }),
       _setLoading: (loading) => set({ isLoading: loading }),
       _setConvexUserId: (id) => set({ convexUserId: id }),

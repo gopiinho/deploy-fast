@@ -20,6 +20,7 @@ export default defineSchema({
   contracts: defineTable({
     projectId: v.id('projects'),
     address: v.string(),
+    type: v.string(),
     name: v.optional(v.string()),
   })
     .index('by_projectId', ['projectId'])

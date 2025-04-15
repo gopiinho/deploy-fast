@@ -52,10 +52,8 @@ export default function TokenForm() {
   const {
     name,
     symbol,
-    description,
     mintAmount,
     recipient,
-    setDescription,
     confirming,
     setConfirming,
     loading,
@@ -111,6 +109,7 @@ export default function TokenForm() {
           await addContractToProject({
             name: values.name,
             address: returnedAddy,
+            type: 'Token',
             projectId: activeProject?._id,
           })
         }
@@ -176,7 +175,7 @@ export default function TokenForm() {
                   />
                 </div>
               </div>
-              <div className="flex w-full flex-col gap-2">
+              {/* <div className="flex w-full flex-col gap-2">
                 <FormTag title="Description" />
                 <textarea
                   cols={50}
@@ -184,7 +183,7 @@ export default function TokenForm() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-              </div>
+              </div> */}
             </div>
           </FormBlock>
           <FormBlock title="Supply">
@@ -250,7 +249,7 @@ export default function TokenForm() {
                   isRequired
                   description="Select a network to deploy this contract on."
                 />
-                <div className="border-input hover:bg-primary-foreground flex h-12 cursor-not-allowed items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
+                <div className="border-input hover:bg-accent flex h-12 cursor-not-allowed items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
                   <span>Base Sepolia</span>
                   <IoIosArrowDown />
                 </div>

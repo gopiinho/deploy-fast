@@ -28,7 +28,7 @@ function ContractItem({ title, description, path }: ContractItemProps) {
         </ItemCardHeader>
         <ItemCardFooter>
           <Link href={path}>
-            <Button variant={'deploy'} size={'sm'}>
+            <Button size={'sm'}>
               Deploy
               <LuRocket size={50} />
             </Button>
