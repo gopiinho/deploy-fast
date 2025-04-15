@@ -33,8 +33,8 @@ export default function NavProfile() {
           <div className="bg-muted-foreground h-10 w-10 rounded-full border p-1"></div>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="text-muted-foreground mr-4 w-56 lg:mr-6">
-        <div className="hover:bg-accent flex w-full cursor-pointer items-center justify-between gap-2 rounded-sm border p-2 duration-150">
+      <DropdownMenuContent className="mr-4 w-56 lg:mr-6">
+        <div className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-sm border p-2 duration-150">
           {user.wallet?.address ? shortenAddress(user.wallet.address) : 'N/A'}
           <CiWallet />
         </div>
@@ -43,11 +43,10 @@ export default function NavProfile() {
           <Link href={'/projects'}>
             <DropdownMenuItem>Your Projects</DropdownMenuItem>
           </Link>
-          {/* <DropdownMenuItem>Your Account</DropdownMenuItem> */}
           <DropdownMenuItem onClick={toggleTheme}>
             Theme
             <DropdownMenuShortcut>
-              <div className="text-border flex gap-2 rounded-sm border px-2 py-1">
+              <div className="border-border flex gap-2 rounded-sm border px-2 py-1">
                 {theme === 'light' ? <IoMoonOutline /> : <IoSunnyOutline />}
               </div>
             </DropdownMenuShortcut>

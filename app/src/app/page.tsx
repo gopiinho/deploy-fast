@@ -11,7 +11,7 @@ export default function Home() {
         <Spotlight />
         <div className="flex h-full flex-col items-center justify-center gap-12">
           <div className="grid gap-3 text-center">
-            <h1 className="text-muted-foreground text-4xl font-bold sm:text-5xl lg:text-7xl">
+            <h1 className="text-muted-foreground text-4xl font-bold sm:text-5xl lg:text-7xl 2xl:text-8xl">
               <span className="text-foreground">Smart contracts</span> <br />
               without the complexity
             </h1>

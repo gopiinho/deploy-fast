@@ -90,14 +90,16 @@ export default function ProjectContractList() {
         ) : (
           <>
             <TableRow className="items-center justify-center">
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
+              <TableCell
+                colSpan={4}
+                className="bg-accent/80 h-20 animate-pulse"
+              />
             </TableRow>
             <TableRow className="items-center justify-center">
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
-              <TableCell className="bg-primary-foreground h-20 animate-pulse" />
+              <TableCell
+                colSpan={4}
+                className="bg-accent/80 h-20 animate-pulse"
+              />
             </TableRow>
           </>
         )}

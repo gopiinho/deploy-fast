@@ -18,7 +18,7 @@ export default function HomeNavigator() {
   const disableLogin = !ready || (ready && authenticated)
 
   return (
-    <header className="border-primary-foreground my-auto flex h-16 w-full items-center justify-between border-b text-base sm:h-20">
+    <header className="border-border my-auto flex h-16 w-full items-center justify-between border-b text-base sm:h-20">
       <Link href={'/'}>
         <h2 className="text-xl font-semibold">DeployFast</h2>
       </Link>

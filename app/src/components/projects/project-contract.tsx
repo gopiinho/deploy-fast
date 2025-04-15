@@ -26,7 +26,7 @@ export default function ProjectContract() {
   return (
     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
-        <div className="hover:bg-primary-foreground flex max-w-48 cursor-pointer items-center justify-between rounded-sm border px-4 py-2 duration-150">
+        <div className="hover:bg-accent flex max-w-48 cursor-pointer items-center justify-between rounded-sm border px-4 py-2 duration-150">
           <div className="flex gap-2">
             <span className="rounded-full border p-1">
               <HiOutlineCube size={14} />
@@ -48,9 +48,7 @@ export default function ProjectContract() {
                 key={project._id}
                 onClick={() => handleProjectSelect(project)}
                 className={`cursor-pointer ${
-                  project._id === activeProject?._id
-                    ? 'bg-primary-foreground'
-                    : ''
+                  project._id === activeProject?._id ? 'bg-accent' : ''
                 }`}
               >
                 <span className="rounded-full border p-1">

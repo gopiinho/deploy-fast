@@ -34,8 +34,8 @@ function ProjectOptionsItems({
       <span
         className={`flex cursor-pointer items-center gap-3 rounded-sm px-2 py-1 duration-150 ${
           isActive
-            ? 'bg-primary-foreground text-foreground'
-            : 'text-muted-foreground hover:bg-primary-foreground hover:text-foreground'
+            ? 'bg-accent text-foreground'
+            : 'text-muted-foreground hover:bg-accent hover:text-foreground'
         }`}
       >
         {<Icon size={17} />}
@@ -51,7 +51,7 @@ export default function ProjectOptions({
   projectName: string | undefined
 }) {
   return (
-    <div className="text-muted-foreground border-primary-foreground flex w-[20%] flex-col justify-between border-r px-2 py-4 max-lg:hidden">
+    <div className="text-muted-foreground border-border flex w-[20%] flex-col justify-between border-r px-2 py-4 max-lg:hidden">
       <div className="flex flex-col gap-1">
         <ProjectOptionsItems
           Icon={AiOutlineHome}

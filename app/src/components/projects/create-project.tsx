@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { MoonLoader } from 'react-spinners'
 import { toast } from 'sonner'
+import { motion, AnimatePresence } from 'motion/react'
 
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -32,7 +33,7 @@ const formSchema = z.object({
 export default function CreateProject({ close }: CreateProjectProps) {
   // const [slug, setSlug] = useState<string>('')
   const { privyDid } = useUserStore()
-  const { name, setName, loading, setLoading } = useCreateProjectStore()
+  const { name, setName, loading, setLoading, open } = useCreateProjectStore()
 
   const createProject = useMutation(api.projects.createProject)
 
@@ -69,66 +70,78 @@ export default function CreateProject({ close }: CreateProjectProps) {
   }
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleCreateProject)}>
-          <div
-            className="bg-background/90 fixed inset-0 z-50 flex items-center justify-center"
-            onClick={close}
-          >
-            <div
-              className="border-border/30 rounded-lg border p-3 bg-blend-saturation backdrop-blur-md max-sm:w-full sm:min-w-60"
-              onClick={(e) => e.stopPropagation()}
+    <AnimatePresence>
+      {open && (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleCreateProject)}>
+            <motion.div
+              className="bg-background/90 fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm"
+              onClick={close}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <div className="bg-background border-border/40 min-w-120 flex flex-col gap-4 rounded-lg border p-3 max-sm:w-full">
-                <div className="flex items-center justify-between pb-2">
-                  <span className="text-2xl font-semibold">Create Project</span>
-                  <IoMdClose
-                    size={20}
-                    onClick={close}
-                    className="cursor-pointer duration-150 hover:opacity-50"
-                  />
+              <motion.div
+                className="border-border rounded-lg border p-3 bg-blend-saturation backdrop-blur-md max-sm:w-full sm:min-w-60"
+                onClick={(e) => e.stopPropagation()}
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
+                <div className="bg-card border-border min-w-120 flex flex-col gap-4 rounded-lg border p-3 max-sm:w-full">
+                  <div className="flex items-center justify-between pb-2">
+                    <span className="text-2xl font-semibold">
+                      Create Project
+                    </span>
+                    <IoMdClose
+                      size={20}
+                      onClick={close}
+                      className="cursor-pointer duration-150 hover:opacity-50"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <span>Project Name</span>
+                    <FormField
+                      control={form.control}
+                      name="projectName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e)
+                                setName(e.target.value)
+                              }}
+                              placeholder="My project"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex items-end justify-end gap-2 pt-4">
+                    <Button
+                      type="button"
+                      onClick={close}
+                      variant={'outline'}
+                      size={'lg'}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" size={'lg'}>
+                      {loading ? <MoonLoader size={20} /> : 'Confirm'}
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span>Project Name</span>
-                  <FormField
-                    control={form.control}
-                    name="projectName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            onChange={(e) => {
-                              field.onChange(e)
-                              setName(e.target.value)
-                            }}
-                            placeholder="My project"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="flex items-end justify-end gap-2 pt-4">
-                  <Button
-                    type="button"
-                    onClick={close}
-                    variant={'outline'}
-                    size={'lg'}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" size={'lg'}>
-                    {loading ? <MoonLoader size={20} /> : 'Confirm'}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </Form>
-    </>
+              </motion.div>
+            </motion.div>
+          </form>
+        </Form>
+      )}
+    </AnimatePresence>
   )
 }
