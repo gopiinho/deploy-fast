@@ -22,7 +22,7 @@ function ContractItem({ title, description, path }: ContractItemProps) {
       <ItemCard>
         <ItemCardHeader>
           <ItemCardTitle>
-            {title} <span className="text-sm text-green-400">New</span>
+            {title} <span className="text-sm text-green-500">New</span>
           </ItemCardTitle>
           <ItemCardDescription>{description}</ItemCardDescription>
         </ItemCardHeader>
