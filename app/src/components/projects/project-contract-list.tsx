@@ -132,7 +132,7 @@ export default function ProjectContractList() {
             </>
           ) : (
             <TableRow>
-              <TableCell colSpan={3} className="py-10 text-center">
+              <TableCell colSpan={5} className="py-10 text-center">
                 No Contracts
               </TableCell>
             </TableRow>
@@ -141,13 +141,13 @@ export default function ProjectContractList() {
           <>
             <TableRow className="items-center justify-center">
               <TableCell
-                colSpan={4}
+                colSpan={5}
                 className="bg-accent/80 h-20 animate-pulse"
               />
             </TableRow>
             <TableRow className="items-center justify-center">
               <TableCell
-                colSpan={4}
+                colSpan={5}
                 className="bg-accent/80 h-20 animate-pulse"
               />
             </TableRow>
