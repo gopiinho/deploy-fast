@@ -1,5 +1,7 @@
 import { Address } from 'viem'
 
-const DF_MANAGER: Address = '0x32f02761f5aa813e34e340adeca0f30f235a920d'
+const DF_MANAGER: Address = '0xABeD8581ebAdC5E95110E6Be61cEB51af343fBFd'
 
-export { DF_MANAGER }
+const ETHERSCAN_API_VERIFY_URL: string = `https://api-sepolia.basescan.org/api`
+
+export { DF_MANAGER, ETHERSCAN_API_VERIFY_URL }

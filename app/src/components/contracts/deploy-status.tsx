@@ -1,21 +1,28 @@
-// import Link from 'next/link'
-import { CiCircleCheck, CiCircleInfo } from 'react-icons/ci'
+import Link from 'next/link'
+import { GoDotFill } from 'react-icons/go'
 import { motion, AnimatePresence } from 'motion/react'
 
 import { Button } from '../ui/button'
 import { DeployStatusType } from '@/lib/types'
 
 interface DeployStatusProps {
-  // path: string
+  address: string | null
   status: DeployStatusType
   close: () => void
 }
 
 export default function DeployStatus({
-  // path,
+  address,
   status,
   close,
 }: DeployStatusProps) {
+  const isDeploying = status === DeployStatusType.Deploying
+  const isDeployed =
+    status === DeployStatusType.Deployed ||
+    status === DeployStatusType.Verifying ||
+    status === DeployStatusType.Verified
+  const isVerifying = status === DeployStatusType.Verifying
+  const isVerified = status === DeployStatusType.Verified
   return (
     <AnimatePresence>
       <motion.div
@@ -38,17 +45,58 @@ export default function DeployStatus({
             <div className="flex items-center justify-between pb-2">
               <span className="text-xl font-semibold">Deploy Status</span>
             </div>
-            <div className="flex items-center gap-3 p-2 font-semibold">
-              {status === DeployStatusType.Deployed ? (
-                <CiCircleCheck className="text-green-400" size={25} />
-              ) : (
-                <CiCircleInfo className="text-yellow-400" size={25} />
-              )}
-              <div>
-                <span>
-                  {status === DeployStatusType.Deploying
-                    ? 'Deployment in progress...'
-                    : 'Successfully deployed!'}
+
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3 p-2">
+                <motion.div
+                  animate={{
+                    color: isDeployed ? '#10B981' : '#9CA3AF',
+                    scale: isDeploying ? [1, 1.1, 1] : 1,
+                  }}
+                  transition={{
+                    color: { duration: 0.5 },
+                    scale: {
+                      repeat: isDeploying ? Infinity : 0,
+                      duration: 1.5,
+                    },
+                  }}
+                >
+                  {isDeployed ? (
+                    <GoDotFill className="text-green-500" size={22} />
+                  ) : (
+                    <GoDotFill className="shadow" size={22} />
+                  )}
+                </motion.div>
+                <span
+                  className={`font-medium ${isDeployed ? 'text-green-500' : ''}`}
+                >
+                  {isDeploying ? 'Deploying' : 'Deployed'}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 p-2">
+                <motion.div
+                  animate={{
+                    color: isVerified ? '#10B981' : '#9CA3AF',
+                    scale: isVerifying ? [1, 1.1, 1] : 1,
+                  }}
+                  transition={{
+                    color: { duration: 0.5 },
+                    scale: {
+                      repeat: isVerifying ? Infinity : 0,
+                      duration: 1.5,
+                    },
+                  }}
+                >
+                  {isVerified ? (
+                    <GoDotFill className="text-green-500" size={22} />
+                  ) : (
+                    <GoDotFill size={22} />
+                  )}
+                </motion.div>
+                <span
+                  className={`font-medium ${isVerified ? 'text-green-500' : ''}`}
+                >
+                  {isVerifying ? 'Verifying' : 'Verified'}
                 </span>
               </div>
             </div>
@@ -56,11 +104,20 @@ export default function DeployStatus({
               <Button size={'lg'} variant={'outline'} onClick={close}>
                 Close
               </Button>
-              {/* {status === DeployStatusType.Deployed && (
-              <Link href={path}>
-                <Button size={'lg'}>View Contract</Button>
-              </Link>
-            )} */}
+              {(status === DeployStatusType.Deployed ||
+                status === DeployStatusType.Verifying ||
+                status === DeployStatusType.Verified) &&
+                address && (
+                  <Link
+                    href={`https://sepolia.basescan.org/address/${address}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button size={'lg'} type="button">
+                      Explorer
+                    </Button>
+                  </Link>
+                )}
             </div>
           </div>
         </motion.div>

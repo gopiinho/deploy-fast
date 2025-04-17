@@ -1,10 +1,15 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
 import { usePublicClient, useWriteContract } from 'wagmi'
-import { Address, parseEther } from 'viem'
+import {
+  Address,
+  parseEther,
+  encodeAbiParameters,
+  parseAbiParameters,
+} from 'viem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -30,6 +35,17 @@ import Confirmation from './confirmation'
 import ProjectContract from '../projects/project-contract'
 import DeployStatus from './deploy-status'
 import { DeployStatusType } from '@/lib/types'
+import {
+  ERC20_SOURCE_CODE,
+  ERC20_COMPILER_VERSION,
+  ETHERSCAN_CONTRACT_NAME,
+  VERIFICATION_API_ENDPOINT,
+  TARGET_CHAIN_ID,
+  CODE_FORMAT,
+  OPTIMIZER_ENABLED,
+  OPTIMIZER_RUNS,
+} from '@/lib/contract-verify/token/token-details'
+import { useVerifyContract } from '@/hooks/useVerifyContract'
 
 const formSchema = z.object({
   name: z
@@ -47,6 +63,7 @@ const formSchema = z.object({
 })
 
 export default function TokenForm() {
+  const [deployedContract, setDeployedContract] = useState<string | null>(null)
   const { user } = usePrivy()
   const { writeContractAsync } = useWriteContract()
   const {
@@ -63,6 +80,9 @@ export default function TokenForm() {
   } = useErc20FormStore()
   const { activeProject } = useUserStore()
   const client = usePublicClient()
+
+  const { verifyContract, clearState: clearVerificationState } =
+    useVerifyContract()
 
   const addContractToProject = useMutation(api.contracts.createContract)
 
@@ -82,49 +102,125 @@ export default function TokenForm() {
     }
   }, [user?.wallet?.address, form.setValue, form])
 
-  async function handleDeployToken(values: z.infer<typeof formSchema>) {
-    try {
+  const handleDeployToken = useCallback(
+    async (values: z.infer<typeof formSchema>) => {
       setLoading(true)
+      clearVerificationState()
 
-      const hash = await writeContractAsync({
-        abi: dfManagerAbi,
-        address: DF_MANAGER,
-        functionName: '_deployErc20',
-        args: [
-          values.name,
-          values.symbol,
-          parseEther(values.mintAmount.toString()),
-          values.recipient as Address,
-        ],
-      })
+      let deployedAddress: Address | null = null
+      let constructorArgsEncoded: string | undefined = undefined
 
-      setDeployStatus(DeployStatusType.Deploying)
+      try {
+        const deployerAddress = user?.wallet?.address
 
-      if (client) {
-        const tx = await client?.waitForTransactionReceipt({ hash })
-
-        const returnedAddy = tx.logs[0].address
-
-        if (activeProject && returnedAddy) {
-          await addContractToProject({
-            name: values.name,
-            address: returnedAddy,
-            type: 'Token',
-            projectId: activeProject?._id,
-          })
+        if (!deployerAddress) {
+          throw new Error(
+            'User wallet address not found for deployer argument.'
+          )
         }
+
+        const abiEncoded = encodeAbiParameters(
+          parseAbiParameters(
+            'string name, string symbol, uint256 mintAmount, address mintTo, address deployer'
+          ),
+          [
+            values.name,
+            values.symbol,
+            parseEther(values.mintAmount.toString()),
+            values.recipient as Address,
+            deployerAddress as Address,
+          ]
+        )
+        constructorArgsEncoded = abiEncoded.startsWith('0x')
+          ? abiEncoded.substring(2)
+          : abiEncoded
+      } catch (error) {
+        console.error(error)
+        setLoading(false)
+        setConfirming(false)
+        return
       }
 
-      setLoading(false)
-      setConfirming(false)
-      setDeployStatus(DeployStatusType.Deployed)
-    } catch (error) {
-      setLoading(false)
-      if (error instanceof Error) {
-        console.log(error.message)
+      try {
+        const hash = await writeContractAsync({
+          abi: dfManagerAbi,
+          address: DF_MANAGER,
+          functionName: '_deployErc20',
+          args: [
+            values.name,
+            values.symbol,
+            parseEther(values.mintAmount.toString()),
+            values.recipient as Address,
+          ],
+        })
+
+        setDeployStatus(DeployStatusType.Deploying)
+
+        if (client) {
+          const tx = await client.waitForTransactionReceipt({ hash })
+
+          if (tx.logs && tx.logs.length > 0 && tx.logs[0].address) {
+            deployedAddress = tx.logs[0].address
+
+            setDeployedContract(deployedAddress)
+            setDeployStatus(DeployStatusType.Deployed)
+
+            if (activeProject && deployedAddress) {
+              await addContractToProject({
+                name: values.name,
+                address: deployedAddress,
+                type: 'Token',
+                projectId: activeProject?._id,
+              })
+            }
+
+            if (!constructorArgsEncoded) {
+            } else {
+              setDeployStatus(DeployStatusType.Verifying)
+
+              await verifyContract(VERIFICATION_API_ENDPOINT, {
+                chainId: TARGET_CHAIN_ID,
+                codeformat: CODE_FORMAT,
+                sourceCode: ERC20_SOURCE_CODE,
+                contractaddress: deployedAddress,
+                contractname: ETHERSCAN_CONTRACT_NAME,
+                compilerversion: ERC20_COMPILER_VERSION,
+                constructorArguements: constructorArgsEncoded,
+                optimizationUsed: OPTIMIZER_ENABLED,
+                runs: OPTIMIZER_RUNS,
+              })
+
+              setDeployStatus(DeployStatusType.Verified)
+            }
+          } else {
+            throw new Error('Failed to extract deployed contract address.')
+          }
+        } else {
+          throw new Error('Client not available for transaction monitoring.')
+        }
+
+        setConfirming(false)
+      } catch (error) {
+        console.error(error)
+        setDeployStatus(DeployStatusType.Error)
+        setConfirming(false)
+      } finally {
+        setLoading(false)
       }
-    }
-  }
+    },
+    [
+      user?.wallet?.address,
+      setLoading,
+      setDeployStatus,
+      clearVerificationState,
+      writeContractAsync,
+      client,
+      activeProject,
+      addContractToProject,
+      verifyContract,
+      setConfirming,
+    ]
+  )
 
   async function handleOpenConfirmation() {
     const isValid = await form.trigger()
@@ -271,14 +367,14 @@ export default function TokenForm() {
               isLoading={loading}
             />
           )}
-          {deployStatus !== DeployStatusType.Idle ? (
-            <DeployStatus
-              // path="/projects/"
-              status={deployStatus}
-              close={() => setDeployStatus(DeployStatusType.Idle)}
-            />
-          ) : null}
         </form>
+        {deployStatus !== DeployStatusType.Idle ? (
+          <DeployStatus
+            address={deployedContract}
+            status={deployStatus}
+            close={() => setDeployStatus(DeployStatusType.Idle)}
+          />
+        ) : null}
       </Form>
     </section>
   )
