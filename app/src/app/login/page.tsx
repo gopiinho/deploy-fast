@@ -25,7 +25,7 @@ export default function Login() {
   return (
     <div>
       <div className="relative flex min-h-[calc(100vh-120px)] w-full flex-grow items-center justify-center">
-        <div className="border-border rounded-lg border p-3 bg-blend-saturation backdrop-blur-md max-sm:w-full sm:min-w-60">
+        <div className="border-border rounded-lg border p-3 bg-blend-saturation shadow-xl backdrop-blur-md max-sm:w-full sm:min-w-60">
           <div className="bg-card border-border flex min-w-80 flex-col gap-4 rounded-lg border p-3 max-sm:w-full">
             <div className="flex flex-col items-center justify-center pb-8">
               <div className="mb-3">

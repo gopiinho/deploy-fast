@@ -83,7 +83,7 @@ export default function CreateProject({ close }: CreateProjectProps) {
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="border-border rounded-lg border p-3 bg-blend-saturation backdrop-blur-md max-sm:w-full sm:min-w-60"
+                className="border-border rounded-lg border p-3 bg-blend-saturation shadow-xl backdrop-blur-md max-sm:w-full sm:min-w-60"
                 onClick={(e) => e.stopPropagation()}
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
