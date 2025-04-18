@@ -13,7 +13,7 @@ export default function RouteGuard({
 
   useEffect(() => {
     if (ready && !authenticated) {
-      router.push('/')
+      router.push('/login')
     }
   }, [ready, authenticated, router])
 
