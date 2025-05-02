@@ -1,10 +1,22 @@
 'use client'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { usePrivy } from '@privy-io/react-auth'
 import Footer from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { Spotlight } from '@/components/ui/spotlight'
 
 export default function Home() {
+  const router = useRouter()
+  const { ready, authenticated } = usePrivy()
+
+  useEffect(() => {
+    if (ready && authenticated) {
+      router.push('/projects/')
+    }
+  }, [ready, authenticated, router])
+
   return (
     <>
       <section className="relative flex min-h-[calc(100vh-120px)] justify-center overflow-hidden px-4 py-[20%] font-[family-name:var(--font-geist-sans)] antialiased sm:px-8 sm:py-[10%] lg:px-20">
