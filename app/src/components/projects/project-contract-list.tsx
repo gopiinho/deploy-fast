@@ -20,7 +20,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../ui/dropdown-menu'
-import { shortenAddress } from '@/lib/helpers'
+import { shortenAddress } from '@/lib/helpers/helpers'
 import { Id } from '../../../convex/_generated/dataModel'
 import { toast } from 'sonner'
 import { extractConvexError } from '@/lib/extractConvexError'

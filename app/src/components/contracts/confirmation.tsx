@@ -3,7 +3,7 @@ import { MdUpload } from 'react-icons/md'
 import { MoonLoader } from 'react-spinners'
 import { motion, AnimatePresence } from 'motion/react'
 import { Button } from '../ui/button'
-import { shortenAddress } from '@/lib/helpers'
+import { shortenAddress } from '@/lib/helpers/helpers'
 
 interface ConfirmationProps {
   onClick?: () => void

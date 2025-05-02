@@ -27,7 +27,7 @@ interface CreateProjectProps {
 }
 
 const formSchema = z.object({
-  projectName: z.string().min(1).max(50),
+  projectName: z.string().min(3).max(50),
 })
 
 export default function CreateProject({ close }: CreateProjectProps) {

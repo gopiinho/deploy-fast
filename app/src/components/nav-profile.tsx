@@ -16,7 +16,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { shortenAddress } from '@/lib/helpers'
+import { shortenAddress } from '@/lib/helpers/helpers'
 
 export default function NavProfile() {
   const { user, logout } = usePrivy()

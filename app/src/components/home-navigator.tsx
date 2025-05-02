@@ -22,7 +22,10 @@ export default function HomeNavigator() {
       <Link href={'/'}>
         <h2 className="text-xl font-semibold">DeployFast</h2>
       </Link>
-
+      <div className="flex gap-6 font-semibold max-sm:hidden">
+        <Link href={'#features'}>Features</Link>
+        <Link href={'#pricing'}>Pricing</Link>
+      </div>
       <div className="flex gap-2">
         <div className="flex gap-2">
           <Button size="sm" disabled={disableLogin} onClick={login}>

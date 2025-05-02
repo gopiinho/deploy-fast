@@ -5,18 +5,18 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer rounded-sm justify-center gap-1 whitespace-nowrap text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive duration-150",
+  "inline-flex items-center cursor-pointer rounded-sm justify-center gap-1 whitespace-nowrap text-sm font-semibold transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive duration-150",
   {
     variants: {
       variant: {
         default:
-          'bg-primary hover:bg-primary/70 text-primary-foreground font-semibold transition duration-150 shadow-primary shadow-[5px_5px_10px_-5px_rgba(0,0,0,0.3),-5px_5px_10px_-5px_rgba(0,0,0,0.3)] rounded-sm',
+          'bg-primary hover:bg-primary/70 text-primary-foreground transition duration-150 rounded-sm',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
         outline:
           'border border-border transition duration-150 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
         delete:
-          'border text-red-600 border-red-600 bg-background shadow-xs hover:bg-red-600/40 hover:text-red-600',
+          'border text-foreground border-red-600 bg-red-600 shadow-xs hover:bg-red-600/70 duration-150 transition',
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
