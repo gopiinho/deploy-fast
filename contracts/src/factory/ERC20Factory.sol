@@ -4,11 +4,6 @@ pragma solidity 0.8.28;
 import {ERC20Contract} from "../tokens/ERC20.sol";
 
 contract ERC20Factory {
-    ///////////////////////
-    /// State Variables ///
-    ///////////////////////
-    ERC20Contract public erc20;
-
     ///////////////
     ///  Events ///
     ///////////////
@@ -24,7 +19,7 @@ contract ERC20Factory {
         returns (address)
     {
         address erc20Address = address(new ERC20Contract(name, symbol, mintAmount, mintTo, msg.sender));
-        erc20 = ERC20Contract(erc20Address);
+        // erc20 = ERC20Contract(erc20Address);
         emit ERC20Deployed(name, symbol, mintAmount, erc20Address);
         return erc20Address;
     }
