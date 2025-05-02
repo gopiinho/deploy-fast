@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { HiOutlineCube } from 'react-icons/hi'
 import { useUserStore } from '@/state/userStore'
-import { Doc, Id } from '../../../convex/_generated/dataModel'
+import { Doc } from '../../../convex/_generated/dataModel'
 import { Button } from '@/components/ui/button'
 import {
   Table,
