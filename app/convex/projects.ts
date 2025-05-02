@@ -100,6 +100,42 @@ export const userHasProjects = query({
   },
 })
 
+export const renameProject = mutation({
+  args: {
+    projectId: v.id('projects'),
+    privyDid: v.string(),
+    name: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { projectId, privyDid, name } = args
+
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', privyDid))
+      .first()
+
+    if (!user) {
+      throw new Error('User not found.')
+    }
+
+    const project = await ctx.db.get(projectId)
+
+    if (!project) {
+      throw new Error('Project not found.')
+    }
+
+    if (project.userId !== user._id) {
+      throw new Error('Unauthorized to rename this project.')
+    }
+
+    await ctx.db.patch(projectId, {
+      name,
+    })
+
+    return { success: true }
+  },
+})
+
 export const deleteProject = mutation({
   args: {
     projectId: v.id('projects'),

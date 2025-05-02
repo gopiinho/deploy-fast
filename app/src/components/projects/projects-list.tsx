@@ -15,14 +15,11 @@ import {
 
 interface ProjectsListProps {
   projects: Doc<'projects'>[] | undefined
-  onDelete: (projectId: Id<'projects'>) => void
 }
 
-export default function ProjectsList({
-  projects,
-  onDelete,
-}: ProjectsListProps) {
+export default function ProjectsList({ projects }: ProjectsListProps) {
   const { setActiveProject } = useUserStore()
+
   return (
     <div className="grid">
       <Table>
@@ -61,15 +58,8 @@ export default function ProjectsList({
               </TableCell>
               <TableCell className="text-right">
                 <div className="relative z-20 flex gap-3">
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onDelete(project._id)
-                    }}
-                    variant={'delete'}
-                    size={'sm'}
-                  >
-                    Delete
+                  <Button variant={'outline'} size={'sm'}>
+                    View
                   </Button>
                 </div>
               </TableCell>

@@ -1,10 +1,5 @@
 'use client'
-import { useMutation } from 'convex/react'
-import { toast } from 'sonner'
 import { FaPlus } from 'react-icons/fa6'
-
-import { Id } from '../../../convex/_generated/dataModel'
-import { api } from '../../../convex/_generated/api'
 import { useUserStore } from '@/state/userStore'
 import PageBase from '@/components/ui/page-base'
 import { Button } from '@/components/ui/button'
@@ -14,29 +9,11 @@ import CreateProject from '@/components/projects/create-project'
 import Footer from '@/components/footer'
 
 export default function Projects() {
-  const { privyDid, projects, hasProjects } = useUserStore()
+  const { projects, hasProjects } = useUserStore()
   const { open, setOpen } = useCreateProjectStore()
 
   const handleCreateProject = () => {
     setOpen(true)
-  }
-
-  const deleteProject = useMutation(api.projects.deleteProject)
-
-  async function handleDeleteProject(projectId: Id<'projects'>) {
-    try {
-      if (!privyDid) {
-        toast.error('User not authenticated')
-        return
-      }
-      await deleteProject({
-        privyDid,
-        projectId,
-      })
-      toast.success('Project deleted successfully!')
-    } catch {
-      toast.error('Failed to delete project')
-    }
   }
 
   return (
@@ -58,10 +35,7 @@ export default function Projects() {
                   <FaPlus /> Create Project
                 </Button>
               </div>
-              <ProjectsList
-                projects={projects}
-                onDelete={handleDeleteProject}
-              />
+              <ProjectsList projects={projects} />
             </div>
           </div>
         ) : (
