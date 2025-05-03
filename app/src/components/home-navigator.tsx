@@ -20,11 +20,25 @@ export default function HomeNavigator() {
   return (
     <header className="border-border my-auto flex h-16 w-full items-center justify-between border-b text-base sm:h-20">
       <Link href={'/'}>
-        <h2 className="text-xl font-semibold">DeployFast</h2>
+        <div>
+          <h2 className="text-xl font-semibold">
+            DeployFast <span className="text-primary text-sm">Beta</span>
+          </h2>
+        </div>
       </Link>
-      <div className="flex gap-6 font-semibold max-sm:hidden">
-        <Link href={'#features'}>Features</Link>
-        <Link href={'#pricing'}>Pricing</Link>
+      <div className="flex gap-8 font-semibold max-sm:hidden">
+        <Link
+          href={'#features'}
+          className="text-muted-foreground hover:text-foreground transition duration-150"
+        >
+          Features
+        </Link>
+        <Link
+          href={'#pricing'}
+          className="text-muted-foreground hover:text-foreground transition duration-150"
+        >
+          Pricing
+        </Link>
       </div>
       <div className="flex gap-2">
         <div className="flex gap-2">
