@@ -38,7 +38,7 @@ export default function Login() {
             </div>
             <div className="flex flex-col gap-3">
               <Link href="/contracts">
-                <Button size={'full'} variant={'outline'} onClick={handleLogin}>
+                <Button size={'full'} variant={'outline'}>
                   Browse Contracts
                 </Button>
               </Link>
