@@ -25,19 +25,15 @@ export const getProjectContracts = query({
     projectId: v.id('projects'),
   },
   handler: async (ctx, args) => {
-    const project = await ctx.db
-      .query('projects')
-      .withIndex('by_userId', (q) => q.eq('userId', args.userId))
-      .first()
+    const project = await ctx.db.get(args.projectId)
 
-    if (!project) {
-      throw new Error('Project not found!')
+    if (!project || project.userId !== args.userId) {
+      throw new Error('Project not found or unauthorized!')
     }
 
     return await ctx.db
       .query('contracts')
       .withIndex('by_projectId', (q) => q.eq('projectId', project._id))
-      .filter((q) => q.eq(q.field('projectId'), args.projectId))
       .order('asc')
       .collect()
   },
