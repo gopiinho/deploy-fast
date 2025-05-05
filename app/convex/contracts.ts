@@ -19,6 +19,61 @@ export const createContract = mutation({
   },
 })
 
+export const getContractBySlugAndAddress = query({
+  args: {
+    privyDid: v.string(),
+    projectSlug: v.string(),
+    contractAddress: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user: Doc<'users'> | null = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .unique()
+
+    if (!user) {
+      console.warn(`User with privyDid ${args.privyDid} not found.`)
+      return null
+    }
+
+    const project: Doc<'projects'> | null = await ctx.db
+      .query('projects')
+      .withIndex('by_user_slug', (q) =>
+        q.eq('userId', user._id).eq('slug', args.projectSlug)
+      )
+      .unique()
+
+    if (!project) {
+      console.log(
+        `Project with slug "${args.projectSlug}" not found for user ${user._id}.`
+      )
+      return null
+    }
+
+    if (project.userId !== user._id) {
+      console.error(
+        `Authorization mismatch: Query returned project ${project._id} not owned by user ${user._id}!`
+      )
+      return null
+    }
+
+    const contract: Doc<'contracts'> | null = await ctx.db
+      .query('contracts')
+      .withIndex('by_projectId', (q) => q.eq('projectId', project._id))
+      .filter((q) => q.eq(q.field('address'), args.contractAddress))
+      .unique()
+
+    if (!contract) {
+      console.log(
+        `Contract with address "${args.contractAddress}" not found in project ${project._id}.`
+      )
+      return null
+    }
+
+    return contract
+  },
+})
+
 export const getProjectContracts = query({
   args: {
     userId: v.id('users'),
