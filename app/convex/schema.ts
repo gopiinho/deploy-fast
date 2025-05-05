@@ -15,7 +15,8 @@ export default defineSchema({
     slug: v.optional(v.string()),
   })
     .index('by_userId', ['userId'])
-    .index('by_slug', ['slug']),
+    .index('by_slug', ['slug'])
+    .index('by_user_slug', ['userId', 'slug']),
 
   contracts: defineTable({
     projectId: v.id('projects'),
