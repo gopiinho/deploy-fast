@@ -1,5 +1,4 @@
 import { IconType } from 'react-icons/lib'
-import dashboardImg from '../../../public/dashboard.png'
 import { IoMdSpeedometer } from 'react-icons/io'
 import { IoIosLock } from 'react-icons/io'
 import { MdManageAccounts } from 'react-icons/md'
