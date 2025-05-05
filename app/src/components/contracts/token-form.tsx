@@ -9,6 +9,7 @@ import {
   parseEther,
   encodeAbiParameters,
   parseAbiParameters,
+  getAddress,
 } from 'viem'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -164,11 +165,10 @@ export default function TokenForm() {
 
             setDeployedContract(deployedAddress)
             setDeployStatus(DeployStatusType.Deployed)
-
             if (activeProject && deployedAddress) {
               await addContractToProject({
                 name: values.name,
-                address: deployedAddress,
+                address: getAddress(deployedAddress),
                 type: 'Token',
                 projectId: activeProject?._id,
               })
