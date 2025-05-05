@@ -9,28 +9,18 @@ export default function Features() {
   return (
     <div
       id="features"
-      className="bg-card mx-auto flex flex-col items-center gap-12 rounded-xl px-4 py-12 text-center lg:max-w-[97%]"
+      className="bg-card mx-auto flex flex-col items-center gap-12 rounded-xl px-4 py-16 text-center lg:max-w-[97%]"
     >
       <div className="grid gap-2 lg:w-[55%]">
         <h3 className="text-3xl font-semibold sm:text-5xl">
           Explore the features
         </h3>
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground">
           Deploy your own smart contracts on Ethereum and other EVM-compatible
           chains in just a few clicks. No coding skills required — perfect for
           startups, creators, and communities looking to get onchain.
         </p>
       </div>
-      {/* <div className="flex flex-col gap-4">
-        <h4 className="text-2xl font-semibold">Contracts Dashboard</h4>
-        <div className="right-0 hidden opacity-90 lg:block">
-          <img
-            src={dashboardImg.src}
-            className="border-border w-[800px] rounded-t-3xl border"
-            alt="Dashboard"
-          />
-        </div>
-      </div> */}
       <div className="grid gap-10 py-10 lg:grid-cols-2">
         <FeaturesItems
           icon={IoMdSpeedometer}
