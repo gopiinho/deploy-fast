@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useUserStore } from '@/state/userStore'
 import { IoIosArrowUp } from 'react-icons/io'
@@ -25,6 +26,8 @@ export function ProjectsTab() {
   const { projects, activeProject, setActiveProject } = useUserStore()
   const { open, setOpen } = useCreateProjectStore()
 
+  const router = useRouter()
+
   const handleCreateProject = () => {
     setOpen(true)
     setDropdownOpen(false)
@@ -32,6 +35,7 @@ export function ProjectsTab() {
 
   const handleProjectSelect = (project: ProjectDoc) => {
     setActiveProject(project)
+    router.push(`/projects/${project.slug}`)
     setDropdownOpen(false)
   }
 
