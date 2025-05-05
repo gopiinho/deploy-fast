@@ -5,7 +5,7 @@ import { MoonLoader } from 'react-spinners'
 import { useUserStore } from '@/state/userStore'
 import ProjectWrapper from '@/components/projects/project-wrapper'
 import ProjectOptions from '@/components/projects/project-options'
-import { Id } from '../../../../convex/_generated/dataModel'
+import { Id } from '../../../../../convex/_generated/dataModel'
 import ProjectContentWrapper from '@/components/projects/project-content-wrapper'
 import Footer from '@/components/footer'
 

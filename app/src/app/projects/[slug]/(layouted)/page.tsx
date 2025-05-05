@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import DeleteProject from '@/components/projects/delete-project'
 import { useMutation } from 'convex/react'
-import { api } from '../../../../convex/_generated/api'
+import { api } from '../../../../../convex/_generated/api'
 import { toast } from 'sonner'
 import { validateProjectName } from '@/lib/helpers/projectHelpers'
 
