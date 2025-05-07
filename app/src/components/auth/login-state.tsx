@@ -53,7 +53,6 @@ export default function LoginState({
       )
 
       if (!isAuthorizedWallet) {
-        console.log('Unauthorized wallet detected, logging out')
         logout()
           .then(() => router.push('/'))
           .catch((err) => console.error('Privy logout failed:', err))
@@ -65,25 +64,28 @@ export default function LoginState({
     if (privyAuthenticated) {
       if (isConnected) {
         previouslyConnectedRef.current = true
+        try {
+          sessionStorage.setItem('walletWasConnected', 'true')
+        } catch {}
+      } else if (previouslyConnectedRef.current) {
+        previouslyConnectedRef.current = false
+        try {
+          sessionStorage.removeItem('walletWasConnected')
+        } catch {}
+        logout()
+          .then(() => router.push('/'))
+          .catch((err) => console.error('Privy logout failed:', err))
+        disconnect()
+      } else if (!isConnected) {
+        try {
+          sessionStorage.getItem('walletWasConnected')
+        } catch {}
       }
-
-      if (walletCheckTimeoutRef.current) {
-        clearTimeout(walletCheckTimeoutRef.current)
-        walletCheckTimeoutRef.current = null
-      }
-
-      walletCheckTimeoutRef.current = setTimeout(() => {
-        if (!isConnected && previouslyConnectedRef.current) {
-          previouslyConnectedRef.current = false
-          logout()
-            .then(() => router.push('/'))
-            .catch((err) => console.error('Privy logout failed:', err))
-          disconnect()
-        }
-        walletCheckTimeoutRef.current = null
-      }, 2000)
     } else {
       previouslyConnectedRef.current = false
+      try {
+        sessionStorage.removeItem('walletWasConnected')
+      } catch {}
     }
 
     return cleanup

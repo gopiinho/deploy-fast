@@ -77,7 +77,7 @@ export default function ProjectContractList() {
                 >
                   <TableCell className="font-medium">
                     <Link
-                      href={`/projects/contracts/${contract.address}`}
+                      href={`/projects/${activeProject?.slug}/contracts/${contract.address}`}
                       className="absolute inset-0 z-10"
                     >
                       <span className="sr-only">
