@@ -66,28 +66,26 @@ export default function LoginState({
         previouslyConnectedRef.current = true
         try {
           sessionStorage.setItem('walletWasConnected', 'true')
-        } catch (e) {}
+        } catch {}
       } else if (previouslyConnectedRef.current) {
         previouslyConnectedRef.current = false
         try {
           sessionStorage.removeItem('walletWasConnected')
-        } catch (e) {}
+        } catch {}
         logout()
           .then(() => router.push('/'))
           .catch((err) => console.error('Privy logout failed:', err))
         disconnect()
       } else if (!isConnected) {
-        let walletWasConnected = false
         try {
-          walletWasConnected =
-            sessionStorage.getItem('walletWasConnected') === 'true'
-        } catch (e) {}
+          sessionStorage.getItem('walletWasConnected')
+        } catch {}
       }
     } else {
       previouslyConnectedRef.current = false
       try {
         sessionStorage.removeItem('walletWasConnected')
-      } catch (e) {}
+      } catch {}
     }
 
     return cleanup
