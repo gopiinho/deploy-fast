@@ -1,15 +1,18 @@
 'use client'
+import { useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useReadContracts, useAccount } from 'wagmi'
 import { Address, formatUnits } from 'viem'
 import { erc20Abi } from '@/lib/abis/erc20Abi'
 import TokenDetails from '@/components/contracts/info/token-details'
+import { useContractTokenStore } from '@/state/contractTokenStore'
 
 export default function ContractDetailPage() {
   const params = useParams<{ address: string }>()
 
-  const { address, isConnected } = useAccount()
+  const { address } = useAccount()
   const contractAddress = params?.address as Address
+  const { setTotalSupply, setUserBalance } = useContractTokenStore()
 
   const { data, isLoading, isError } = useReadContracts({
     contracts: [
@@ -35,6 +38,13 @@ export default function ContractDetailPage() {
 
   const formattedTotalSupply = totalSupply ? formatUnits(totalSupply, 18) : '0'
   const formattedUserBalance = userBalance ? formatUnits(userBalance, 18) : '0'
+
+  useEffect(() => {
+    if (formattedTotalSupply && formattedUserBalance) {
+      setTotalSupply(formattedTotalSupply)
+      setUserBalance(formattedUserBalance)
+    }
+  }, [formattedTotalSupply, formattedUserBalance, setTotalSupply, setUserBalance])
 
   return (
     <div>
