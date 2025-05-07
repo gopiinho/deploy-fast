@@ -1,6 +1,6 @@
 interface TokenDetailsProps {
-  totalTokens: string
-  userTokens: string
+  totalTokens: string | undefined
+  userTokens: string | undefined
 }
 
 export default function TokenDetails({
