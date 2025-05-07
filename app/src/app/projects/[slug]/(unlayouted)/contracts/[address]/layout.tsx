@@ -7,6 +7,7 @@ import { useUserStore } from '@/state/userStore'
 import { useContractInfoStore } from '@/state/contractStore'
 import ContractInfoHeader from '@/components/contracts/info/contract-info-header'
 import ContractInfoOptions from '@/components/contracts/info/contract-info-options'
+import ContractInfoWrapper from '@/components/contracts/info/contract-info-wrapper'
 interface ContractInfoLayoutProps {
   children: React.ReactNode
 }
@@ -88,7 +89,7 @@ export default function ContractInfoLayout({
       </Suspense>
       <div className="flex h-full flex-1">
         <ContractInfoOptions />
-        {children}
+        <ContractInfoWrapper>{children}</ContractInfoWrapper>
       </div>
     </div>
   )
