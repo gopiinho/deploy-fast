@@ -1,3 +1,7 @@
+import { useParams } from 'next/navigation'
+import { Address, parseEther } from 'viem'
+import { erc20Abi } from '@/lib/abis/erc20Abi'
+import { useWriteContract, useAccount } from 'wagmi'
 import {
   Drawer,
   DrawerClose,
@@ -11,8 +15,53 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { FaPlus } from 'react-icons/fa6'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { MoonLoader } from 'react-spinners'
 
 export default function MintTokens() {
+  const params = useParams<{ address: string }>()
+  const contractAddress = params?.address as Address
+
+  const { writeContractAsync, isPending } = useWriteContract()
+  const { address } = useAccount()
+
+  const [amount, setAmount] = useState('')
+
+  const handleMintTokens = async () => {
+    if (!amount) {
+      toast.error('Please enter an amount')
+      return
+    }
+
+    if (!contractAddress) {
+      toast.error('Please enter a contract address')
+      return
+    }
+
+    if (!address) {
+      toast.error('Please connect your wallet')
+      return
+    }
+
+    try {
+      await writeContractAsync({
+        address: contractAddress,
+        abi: erc20Abi,
+        functionName: 'mint',
+        args: [address, parseEther(amount)],
+      })
+    } catch (err: any) {
+      console.error('Mint error details:', {
+        error: err,
+        message: err?.message,
+        cause: err?.cause,
+        details: err?.details,
+      })
+      toast.error(`Failed to mint tokens: ${err?.message || 'Unknown error'}`)
+    }
+  }
+
   return (
     <Drawer direction="right">
       <DrawerTrigger>
@@ -29,12 +78,25 @@ export default function MintTokens() {
               <p className="text-foreground text-lg font-semibold">
                 Amount<span className="text-red-500">*</span>
               </p>
-              <Input placeholder="Amount" />
+              <Input
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                type="number"
+                min="0"
+                step="any"
+              />
             </div>
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button size={'lg'}>Mint Tokens</Button>
+          <Button
+            size={'lg'}
+            onClick={() => handleMintTokens()}
+            disabled={isPending}
+          >
+            {isPending ? <MoonLoader color="#000" size={20} /> : 'Mint Tokens'}
+          </Button>
           <DrawerClose>
             <Button variant="outline" size={'full'}>
               Cancel
