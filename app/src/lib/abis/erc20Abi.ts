@@ -1,5 +1,16 @@
 export const erc20Abi = [
   {
+    type: 'constructor',
+    inputs: [
+      { name: 'name', type: 'string', internalType: 'string' },
+      { name: 'symbol', type: 'string', internalType: 'string' },
+      { name: 'mintAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'mintTo', type: 'address', internalType: 'address' },
+      { name: 'deployer', type: 'address', internalType: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'function',
     name: 'allowance',
     inputs: [
@@ -28,6 +39,13 @@ export const erc20Abi = [
   },
   {
     type: 'function',
+    name: 'burn',
+    inputs: [{ name: 'amount', type: 'uint256', internalType: 'uint256' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     name: 'decimals',
     inputs: [],
     outputs: [{ name: '', type: 'uint8', internalType: 'uint8' }],
@@ -35,10 +53,34 @@ export const erc20Abi = [
   },
   {
     type: 'function',
+    name: 'mint',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'amount', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     name: 'name',
     inputs: [],
     outputs: [{ name: '', type: 'string', internalType: 'string' }],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'owner',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'renounceOwnership',
+    inputs: [],
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -76,6 +118,13 @@ export const erc20Abi = [
     stateMutability: 'nonpayable',
   },
   {
+    type: 'function',
+    name: 'transferOwnership',
+    inputs: [{ name: 'newOwner', type: 'address', internalType: 'address' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
     type: 'event',
     name: 'Approval',
     inputs: [
@@ -96,6 +145,25 @@ export const erc20Abi = [
         type: 'uint256',
         indexed: false,
         internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'OwnershipTransferred',
+    inputs: [
+      {
+        name: 'previousOwner',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'newOwner',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
       },
     ],
     anonymous: false,
@@ -162,5 +230,15 @@ export const erc20Abi = [
     type: 'error',
     name: 'ERC20InvalidSpender',
     inputs: [{ name: 'spender', type: 'address', internalType: 'address' }],
+  },
+  {
+    type: 'error',
+    name: 'OwnableInvalidOwner',
+    inputs: [{ name: 'owner', type: 'address', internalType: 'address' }],
+  },
+  {
+    type: 'error',
+    name: 'OwnableUnauthorizedAccount',
+    inputs: [{ name: 'account', type: 'address', internalType: 'address' }],
   },
 ] as const
