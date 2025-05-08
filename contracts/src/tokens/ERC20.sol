@@ -15,7 +15,11 @@ contract ERC20Contract is ERC20, Ownable {
         _mint(mintTo, mintAmount);
     }
 
-    function mintTokens(address account, uint256 amount) external onlyOwner {
+    function mint(address account, uint256 amount) external onlyOwner {
         _mint(account, amount);
+    }
+
+    function burn(uint256 amount) external onlyOwner {
+        _burn(msg.sender, amount);
     }
 }
