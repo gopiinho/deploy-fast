@@ -51,12 +51,12 @@ export default function BurnTokens() {
         functionName: 'burn',
         args: [parseEther(amount)],
       })
-    } catch (err: any) {
-      console.error('Burn error details:', {
+    } catch (error: unknown) {
+      const err = error as Error
+      console.error('Mint error details:', {
         error: err,
         message: err?.message,
         cause: err?.cause,
-        details: err?.details,
       })
       toast.error(`Failed to burn tokens: ${err?.message || 'Unknown error'}`)
     }

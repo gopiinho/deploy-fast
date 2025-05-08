@@ -30,7 +30,7 @@ export default function LoginState({
     if (privyReady && !privyAuthenticated && protectedRoute) {
       router.push('/')
     }
-  }, [privyReady, privyAuthenticated, protectedRoute])
+  }, [privyReady, privyAuthenticated, protectedRoute, router])
 
   const checkWalletState = async () => {
     if (walletClient) {
@@ -97,6 +97,7 @@ export default function LoginState({
     user,
     logout,
     disconnect,
+    router,
   ])
 
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function LoginState({
     }
 
     return cleanup
-  }, [privyReady, privyAuthenticated, walletClient])
+  }, [privyReady, privyAuthenticated, walletClient, router, checkWalletState])
 
   if (protectedRoute && (!privyReady || !privyAuthenticated)) {
     return null

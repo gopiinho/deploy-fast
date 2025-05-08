@@ -51,12 +51,12 @@ export default function MintTokens() {
         functionName: 'mint',
         args: [address, parseEther(amount)],
       })
-    } catch (err: any) {
+    } catch (error: unknown) {
+      const err = error as Error
       console.error('Mint error details:', {
         error: err,
         message: err?.message,
         cause: err?.cause,
-        details: err?.details,
       })
       toast.error(`Failed to mint tokens: ${err?.message || 'Unknown error'}`)
     }

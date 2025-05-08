@@ -28,7 +28,6 @@ export default function TransferTokens() {
 
   const [amount, setAmount] = useState('')
   const [toAddress, setToAddress] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleTransferTokens = async () => {
     if (!amount) {
@@ -53,12 +52,12 @@ export default function TransferTokens() {
         functionName: 'transfer',
         args: [toAddress as Address, parseEther(amount)],
       })
-    } catch (err: any) {
-      console.error('Transfer error details:', {
+    } catch (error: unknown) {
+      const err = error as Error
+      console.error('Mint error details:', {
         error: err,
         message: err?.message,
         cause: err?.cause,
-        details: err?.details,
       })
       toast.error(
         `Failed to transfer tokens: ${err?.message || 'Unknown error'}`
