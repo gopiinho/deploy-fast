@@ -7,6 +7,7 @@ import { PostHogProvider } from '../components/providers/analytics-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import AuthWrapper from '@/components/auth/auth-wrapper'
 import Navigator from '@/components/navigator'
+import { SITE_NAME, SITE_INFO, SITE_URL, SITE_DESCRIPTION } from '@/lib/site'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -19,8 +20,14 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'DeployFast | No Code Smart Contracts',
-  description: 'Deploy smart contracts without writing a single line of code.',
+  applicationName: SITE_NAME,
+  title: {
+    default: `${SITE_NAME} · ${SITE_INFO}`,
+    template: `${SITE_NAME} · %s`,
+  },
+  metadataBase: new URL(SITE_URL),
+  description: SITE_DESCRIPTION,
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
