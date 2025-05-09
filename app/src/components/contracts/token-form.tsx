@@ -65,7 +65,7 @@ const formSchema = z.object({
 
 export default function TokenForm() {
   const [deployedContract, setDeployedContract] = useState<string | null>(null)
-  const { user } = usePrivy()
+  const { user, ready, authenticated } = usePrivy()
   const { writeContractAsync } = useWriteContract()
   const {
     name,
@@ -325,18 +325,20 @@ export default function TokenForm() {
               </div>
             </div>
           </FormBlock>
-          <FormBlock title="Add To Project">
-            <div className="flex flex-col gap-4">
-              <div className="flex w-full flex-col gap-2">
-                <FormTag
-                  title="Project"
-                  isRequired
-                  description="Save the deployed contract in a project's contract list on deployfast dashboard"
-                />
-                <ProjectContract />
+          {!ready || !authenticated ? null : (
+            <FormBlock title="Add To Project">
+              <div className="flex flex-col gap-4">
+                <div className="flex w-full flex-col gap-2">
+                  <FormTag
+                    title="Project"
+                    isRequired
+                    description="Save the deployed contract in a project's contract list on deployfast dashboard"
+                  />
+                  <ProjectContract />
+                </div>
               </div>
-            </div>
-          </FormBlock>
+            </FormBlock>
+          )}
           <FormBlock title="Deploy Options">
             <div className="flex flex-col gap-4">
               <div className="flex w-full flex-col gap-2">
