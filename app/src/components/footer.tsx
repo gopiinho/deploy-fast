@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { FaXTwitter } from 'react-icons/fa6'
-import { FaGithub } from 'react-icons/fa'
 import logo from '../../public/deployfast.svg'
 
 export default function Footer() {
@@ -78,24 +76,6 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        {/* <div className="flex w-full gap-4 lg:w-[20%]">
-          <Link
-            href="https://github.com/gopiinho/deploy-fast"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="duration-150 hover:opacity-60"
-          >
-            <FaGithub />
-          </Link>
-          <Link
-            href="https://x.com/gopiinho"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="duration-150 hover:opacity-60"
-          >
-            <FaXTwitter />
-          </Link>
-        </div> */}
       </div>
     </footer>
   )
