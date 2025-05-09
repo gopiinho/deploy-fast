@@ -39,6 +39,12 @@ export default function HomeNavigator() {
         >
           Pricing
         </Link>
+        <Link
+          href={'/contracts'}
+          className="text-muted-foreground hover:text-foreground transition duration-150"
+        >
+          Contracts
+        </Link>
       </div>
       <div className="flex gap-2">
         <div className="flex gap-2">
