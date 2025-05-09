@@ -5,7 +5,7 @@ export default function Pricing() {
   return (
     <div
       id="pricing"
-      className="mx-auto grid items-center gap-12 px-4 py-16 text-center lg:max-w-[97%]"
+      className="mx-auto grid items-center gap-12 px-4 py-16 text-center lg:max-w-[97%] lg:py-24"
     >
       <h3 className="text-3xl font-semibold sm:text-5xl">Pricing</h3>
       <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
@@ -23,7 +23,7 @@ export default function Pricing() {
                 </span>
                 <span className="flex items-center gap-1">
                   <IoMdCheckmark className="text-muted-foreground" />
-                  Up to 5 deployed smart contracts
+                  Up to 10 deployed smart contracts
                 </span>
                 <span className="flex items-center gap-1">
                   <IoMdCheckmark className="text-muted-foreground" />
@@ -35,7 +35,7 @@ export default function Pricing() {
           <Button variant={'outline'}>Get Started</Button>
         </div>
         <div className="bg-card border-primary relative flex h-full flex-col gap-12 rounded-2xl border-2 p-8 text-start shadow-lg">
-          <span className="bg-primary text-background absolute left-1/2 top-0 -translate-x-1/2 rounded-b-2xl px-4 text-lg font-bold">
+          <span className="bg-primary text-foreground absolute left-1/2 top-0 -translate-x-1/2 rounded-b-2xl px-4 text-lg font-bold">
             Pro
           </span>
           <div className="grid">
