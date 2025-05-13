@@ -37,8 +37,8 @@ export default function ContractInfoOptions() {
       <div className="flex flex-col gap-1">
         <span className="text-foreground mb-1 px-2 font-semibold">General</span>
         <ProjectOptionsItems title="Overview" path="" />
-        <ProjectOptionsItems title="Functions" path="functions" />
-        <ProjectOptionsItems title="Settings" path="settings" />
+        {/* <ProjectOptionsItems title="Functions" path="functions" />
+        <ProjectOptionsItems title="Settings" path="settings" /> */}
         <span className="text-foreground mb-1 mt-4 px-2 font-semibold">
           Actions
         </span>
