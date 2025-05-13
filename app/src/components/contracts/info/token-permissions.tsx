@@ -6,6 +6,7 @@ import { useReadContract, useWriteContract, useAccount } from 'wagmi'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { erc20Abi } from '@/lib/abis/erc20Abi'
+import ContractControlCard from '@/components/ui/contract-control-card'
 
 export default function TokenPermissions() {
   const [newOwner, setNewOwner] = useState<Address>('' as Address)
@@ -63,10 +64,7 @@ export default function TokenPermissions() {
   }
   return (
     <div className="grid gap-4">
-      <div className="bg-card grid w-full rounded-sm border">
-        <div className="border-border border-b px-4 py-5 text-xl font-semibold">
-          Current Owner
-        </div>
+      <ContractControlCard title="Current Owner">
         <div className="flex w-full flex-col justify-between gap-3 p-4">
           <div className="grid w-full gap-2">
             <p className="text-muted-foreground">
@@ -77,13 +75,10 @@ export default function TokenPermissions() {
             </div>
           </div>
         </div>
-      </div>
+      </ContractControlCard>
       {checkIfOwnerIsConnectedWallet ? (
         <>
-          <div className="bg-card grid w-full rounded-sm border">
-            <div className="border-border border-b px-4 py-5 text-xl font-semibold">
-              Transfer Ownership
-            </div>
+          <ContractControlCard title="Transfer Ownership">
             <div className="flex w-full flex-col justify-between gap-3 p-4">
               <div className="grid w-full gap-2">
                 <p className="text-muted-foreground">
@@ -109,11 +104,8 @@ export default function TokenPermissions() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="bg-card grid w-full rounded-sm border">
-            <div className="border-border border-b px-4 py-5 text-xl font-semibold">
-              Renounce Ownership
-            </div>
+          </ContractControlCard>
+          <ContractControlCard title="Renounce Ownership">
             <div className="flex w-full flex-col justify-between gap-3 p-4">
               <div className="grid w-full gap-2">
                 <p className="text-muted-foreground">
@@ -133,7 +125,7 @@ export default function TokenPermissions() {
                 </div>
               </div>
             </div>
-          </div>
+          </ContractControlCard>
         </>
       ) : null}
     </div>
