@@ -9,5 +9,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'always',
       priority: 1,
     },
+    {
+      url: `${SITE_URL}/contracts`,
+      lastModified: new Date(),
+      changeFrequency: 'always',
+      priority: 0.9,
+    },
   ]
 }
