@@ -68,7 +68,8 @@ export default function ProjectPage() {
                     onChange={handleInputChange}
                     className="bg-background"
                     placeholder="Enter project name"
-                  ></Input>
+                    disabled
+                  />
                 </div>
               </div>
             </div>
