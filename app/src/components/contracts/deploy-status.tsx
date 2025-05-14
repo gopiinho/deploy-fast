@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'motion/react'
 
 import { Button } from '../ui/button'
 import { DeployStatusType } from '@/lib/types'
+import { useUserStore } from '@/state/userStore'
+import { useErc20FormStore } from '@/state/erc20FormStore'
 
 interface DeployStatusProps {
   address: string | null
@@ -16,6 +18,9 @@ export default function DeployStatus({
   status,
   close,
 }: DeployStatusProps) {
+  const { activeProject } = useUserStore()
+  const { setDeployStatus } = useErc20FormStore()
+
   const isDeploying = status === DeployStatusType.Deploying
   const isDeployed =
     status === DeployStatusType.Deployed ||
@@ -41,7 +46,7 @@ export default function DeployStatus({
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <div className="bg-card border-border min-w-120 flex flex-col gap-4 rounded-lg border p-3 max-sm:w-full">
+          <div className="bg-card border-border sm:min-w-120 flex flex-col gap-4 rounded-lg border p-3 max-sm:w-full">
             <div className="flex items-center justify-between pb-2">
               <span className="text-xl font-semibold">Deploy Status</span>
             </div>
@@ -64,7 +69,7 @@ export default function DeployStatus({
                   {isDeployed ? (
                     <GoDotFill className="text-green-500" size={22} />
                   ) : (
-                    <GoDotFill className="shadow" size={22} />
+                    <GoDotFill size={22} />
                   )}
                 </motion.div>
                 <span
@@ -107,14 +112,14 @@ export default function DeployStatus({
               {(status === DeployStatusType.Deployed ||
                 status === DeployStatusType.Verifying ||
                 status === DeployStatusType.Verified) &&
-                address && (
+                address &&
+                activeProject && (
                   <Link
-                    href={`https://sepolia.basescan.org/address/${address}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`/projects/${activeProject.slug}/contracts/${address}`}
+                    onClick={() => setDeployStatus(DeployStatusType.Idle)}
                   >
                     <Button size={'lg'} type="button">
-                      Explorer
+                      View
                     </Button>
                   </Link>
                 )}
