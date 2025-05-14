@@ -3,5 +3,9 @@ interface ProjectContentProps {
 }
 
 export default function ProjectContent({ children }: ProjectContentProps) {
-  return <div className="w-full flex-1 px-3 py-4 sm:px-4">{children}</div>
+  return (
+    <div className="w-full flex-1 px-3 pb-16 pt-4 sm:px-4 sm:pb-24">
+      {children}
+    </div>
+  )
 }

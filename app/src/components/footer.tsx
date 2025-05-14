@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="flex w-full flex-col gap-16 lg:flex-row">
         <div className="flex w-full flex-col gap-2 lg:w-[40%]">
           <div className="flex items-center gap-2 text-sm">
-            <div className="bg-foreground z-50 rounded-full p-1">
+            <div className="bg-foreground rounded-full p-1">
               <Image src={logo.src} alt="logo" width={30} height={30} />
             </div>
             <h5 className="text-2xl">

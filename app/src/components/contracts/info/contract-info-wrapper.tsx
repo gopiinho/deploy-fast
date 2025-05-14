@@ -5,5 +5,5 @@ interface ContractInfoWrapperProps {
 export default function ContractInfoWrapper({
   children,
 }: ContractInfoWrapperProps) {
-  return <div className="w-full px-4 py-4">{children}</div>
+  return <div className="w-full px-4 pb-24 pt-4">{children}</div>
 }
