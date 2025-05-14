@@ -89,7 +89,7 @@ export const getProjectContracts = query({
     return await ctx.db
       .query('contracts')
       .withIndex('by_projectId', (q) => q.eq('projectId', project._id))
-      .order('asc')
+      .order('desc')
       .collect()
   },
 })
