@@ -13,6 +13,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
+import WalletButton from '@/components/ui/wallet-button'
 import { Input } from '@/components/ui/input'
 import { IoIosSend } from 'react-icons/io'
 import { useState } from 'react'
@@ -103,7 +104,7 @@ export default function TransferTokens() {
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button
+          <WalletButton
             size={'lg'}
             onClick={() => handleTransferTokens()}
             disabled={isPending}
@@ -113,7 +114,7 @@ export default function TransferTokens() {
             ) : (
               'Transfer Tokens'
             )}
-          </Button>
+          </WalletButton>
           <DrawerClose>
             <Button variant="outline" size={'full'}>
               Cancel

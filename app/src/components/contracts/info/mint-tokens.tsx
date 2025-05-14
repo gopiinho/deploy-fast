@@ -13,6 +13,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
+import WalletButton from '@/components/ui/wallet-button'
 import { Input } from '@/components/ui/input'
 import { FaPlus } from 'react-icons/fa6'
 import { useState } from 'react'
@@ -90,13 +91,13 @@ export default function MintTokens() {
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button
+          <WalletButton
             size={'lg'}
             onClick={() => handleMintTokens()}
             disabled={isPending}
           >
             {isPending ? <MoonLoader color="#000" size={20} /> : 'Mint Tokens'}
-          </Button>
+          </WalletButton>
           <DrawerClose>
             <Button variant="outline" size={'full'}>
               Cancel

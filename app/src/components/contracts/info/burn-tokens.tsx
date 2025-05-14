@@ -13,6 +13,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
+import WalletButton from '@/components/ui/wallet-button'
 import { Input } from '@/components/ui/input'
 import { FaFireFlameCurved } from 'react-icons/fa6'
 import { useState } from 'react'
@@ -93,13 +94,13 @@ export default function BurnTokens() {
           </DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Button
+          <WalletButton
             size={'lg'}
             onClick={() => handleBurnTokens()}
             disabled={isPending}
           >
             {isPending ? <MoonLoader color="#000" size={20} /> : 'Burn Tokens'}
-          </Button>
+          </WalletButton>
           <DrawerClose>
             <Button variant="outline" size={'full'}>
               Cancel

@@ -5,6 +5,7 @@ import { Address } from 'viem'
 import { useReadContract, useWriteContract, useAccount } from 'wagmi'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import WalletButton from '@/components/ui/wallet-button'
 import { erc20Abi } from '@/lib/abis/erc20Abi'
 import ContractControlCard from '@/components/ui/contract-control-card'
 
@@ -93,14 +94,14 @@ export default function TokenPermissions() {
                   ></Input>
                 </div>
                 <div className="flex items-end justify-end pt-4">
-                  <Button
+                  <WalletButton
                     size={'lg'}
                     variant={'outline'}
                     onClick={handleTransferOwnership}
                     disabled={isTransferring}
                   >
                     {isTransferring ? 'Transferring...' : 'Transfer Ownership'}
-                  </Button>
+                  </WalletButton>
                 </div>
               </div>
             </div>
@@ -114,14 +115,14 @@ export default function TokenPermissions() {
                 </p>
                 <div className="flex gap-2 lg:w-[40%]"></div>
                 <div className="flex items-end justify-end pt-4">
-                  <Button
+                  <WalletButton
                     size={'lg'}
                     variant={'delete'}
                     onClick={handleRenounceOwnership}
                     disabled={isRenouncing}
                   >
                     {isRenouncing ? 'Renouncing...' : 'Renounce'}
-                  </Button>
+                  </WalletButton>
                 </div>
               </div>
             </div>

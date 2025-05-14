@@ -18,7 +18,7 @@ import { useMutation } from 'convex/react'
 
 import { api } from '../../../convex/_generated/api'
 import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import WalletButton from '../ui/wallet-button'
 import {
   Form,
   FormControl,
@@ -161,14 +161,14 @@ export default function TokenForm() {
           const tx = await client.waitForTransactionReceipt({ hash })
 
           if (tx.logs && tx.logs.length > 0 && tx.logs[0].address) {
-            deployedAddress = tx.logs[0].address
+            deployedAddress = getAddress(tx.logs[0].address)
 
             setDeployedContract(deployedAddress)
             setDeployStatus(DeployStatusType.Deployed)
             if (activeProject && deployedAddress) {
               await addContractToProject({
                 name: values.name,
-                address: getAddress(deployedAddress),
+                address: deployedAddress,
                 type: 'Token',
                 projectId: activeProject?._id,
               })
@@ -354,9 +354,13 @@ export default function TokenForm() {
               </div>
             </div>
           </FormBlock>
-          <Button size="lg" type="button" onClick={handleOpenConfirmation}>
+          <WalletButton
+            size="lg"
+            type="button"
+            onClick={handleOpenConfirmation}
+          >
             Deploy Now <MdUpload />
-          </Button>
+          </WalletButton>
           {confirming && (
             <Confirmation
               close={() => setConfirming(false)}
