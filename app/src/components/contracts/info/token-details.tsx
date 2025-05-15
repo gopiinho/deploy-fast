@@ -1,4 +1,4 @@
-import ContractControlCard from '@/components/ui/contract-control-card'
+import HeaderCard from '@/components/ui/header-card'
 
 interface TokenDetailsProps {
   totalTokens: string | undefined
@@ -10,7 +10,7 @@ export default function TokenDetails({
   userTokens,
 }: TokenDetailsProps) {
   return (
-    <ContractControlCard title="Token Details">
+    <HeaderCard title="Token Details">
       <div className="grid grid-cols-3 justify-between gap-3 p-4 max-sm:grid-cols-1">
         <div className="grid">
           <span className="text-muted-foreground">Total Tokens</span>
@@ -25,6 +25,6 @@ export default function TokenDetails({
           <span className="text-lg font-semibold">18</span>
         </div>
       </div>
-    </ContractControlCard>
+    </HeaderCard>
   )
 }

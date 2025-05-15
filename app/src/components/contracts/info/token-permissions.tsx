@@ -6,7 +6,7 @@ import { useReadContract, useWriteContract, useAccount } from 'wagmi'
 import { Input } from '@/components/ui/input'
 import WalletButton from '@/components/ui/wallet-button'
 import { erc20Abi } from '@/lib/abis/erc20Abi'
-import ContractControlCard from '@/components/ui/contract-control-card'
+import HeaderCard from '@/components/ui/header-card'
 
 export default function TokenPermissions() {
   const [newOwner, setNewOwner] = useState<Address>('' as Address)
@@ -64,7 +64,7 @@ export default function TokenPermissions() {
   }
   return (
     <div className="grid gap-4">
-      <ContractControlCard title="Current Owner">
+      <HeaderCard title="Current Owner">
         <div className="flex w-full flex-col justify-between gap-3 p-4">
           <div className="grid w-full gap-2">
             <p className="text-muted-foreground">
@@ -75,10 +75,10 @@ export default function TokenPermissions() {
             </div>
           </div>
         </div>
-      </ContractControlCard>
+      </HeaderCard>
       {checkIfOwnerIsConnectedWallet ? (
         <>
-          <ContractControlCard title="Transfer Ownership">
+          <HeaderCard title="Transfer Ownership">
             <div className="flex w-full flex-col justify-between gap-3 p-4">
               <div className="grid w-full gap-2">
                 <p className="text-muted-foreground">
@@ -104,8 +104,8 @@ export default function TokenPermissions() {
                 </div>
               </div>
             </div>
-          </ContractControlCard>
-          <ContractControlCard title="Renounce Ownership">
+          </HeaderCard>
+          <HeaderCard title="Renounce Ownership">
             <div className="flex w-full flex-col justify-between gap-3 p-4">
               <div className="grid w-full gap-2">
                 <p className="text-muted-foreground">
@@ -125,7 +125,7 @@ export default function TokenPermissions() {
                 </div>
               </div>
             </div>
-          </ContractControlCard>
+          </HeaderCard>
         </>
       ) : null}
     </div>
