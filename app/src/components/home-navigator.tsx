@@ -28,13 +28,13 @@ export default function HomeNavigator() {
       </Link>
       <div className="flex gap-8 font-semibold max-sm:hidden">
         <Link
-          href={'#features'}
+          href={'/#features'}
           className="text-muted-foreground hover:text-foreground transition duration-150"
         >
           Features
         </Link>
         <Link
-          href={'#pricing'}
+          href={'/#pricing'}
           className="text-muted-foreground hover:text-foreground transition duration-150"
         >
           Pricing
