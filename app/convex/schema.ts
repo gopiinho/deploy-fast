@@ -7,6 +7,8 @@ export default defineSchema({
     email: v.optional(v.string()),
     name: v.string(),
     wallet: v.optional(v.string()),
+    hasPro: v.boolean(),
+    priceId: v.optional(v.string()),
   }).index('by_privyDid', ['privyDid']),
 
   projects: defineTable({

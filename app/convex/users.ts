@@ -28,6 +28,7 @@ export const createUser = mutation({
   args: {
     privyDid: v.string(),
     email: v.optional(v.string()),
+    hasPro: v.boolean(),
     name: v.string(),
     wallet: v.optional(v.string()),
   },
@@ -45,6 +46,7 @@ export const createUser = mutation({
       email: args.email,
       name: args.name,
       wallet: args.wallet,
+      hasPro: args.hasPro,
     })
     return userId
   },

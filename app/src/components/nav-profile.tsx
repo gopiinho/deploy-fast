@@ -40,6 +40,11 @@ export default function NavProfile() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <Link href={'/billing'}>
+            <DropdownMenuItem className="text-primary">
+              Upgrade Plan
+            </DropdownMenuItem>
+          </Link>
           <Link href={'/projects'}>
             <DropdownMenuItem>Your Projects</DropdownMenuItem>
           </Link>

@@ -53,7 +53,7 @@ export function ProjectsTab() {
             {activeProject.name}
           </Link>
         ) : (
-          'Loading...'
+          'No Project'
         )}
       </span>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>

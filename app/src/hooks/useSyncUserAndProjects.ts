@@ -70,6 +70,7 @@ export const useSyncUserAndProjects = () => {
           privyUser.email?.address ??
           'Anonymous',
         wallet: privyUser.wallet?.address,
+        hasPro: false,
       }).catch((error) => {
         console.error('Error creating/syncing user:', error)
       })
