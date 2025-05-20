@@ -6,6 +6,8 @@ import { useUserStore } from '@/state/userStore'
 
 export const useSyncUserAndProjects = () => {
   const {
+    privyDid: currentPrivyDid,
+    isLoading: storeIsLoading,
     setPrivyDid,
     _setConvexUserId,
     _setProjects,
@@ -18,9 +20,6 @@ export const useSyncUserAndProjects = () => {
     ready: privyReady,
     authenticated: privyAuthenticated,
   } = usePrivy()
-
-  const currentPrivyDid = useUserStore((state) => state.privyDid)
-  const storeIsLoading = useUserStore((state) => state.isLoading)
 
   const createUser = useMutation(api.users.createUser)
   const createAttemptedForDid = useRef<string | undefined>(undefined)
