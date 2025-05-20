@@ -74,3 +74,37 @@ export const getUserAndProjectCount = query({
     return { userId: user._id, projectCount: projects.length }
   },
 })
+
+export const getUserByEmail = query({
+  args: { email: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_email', (q) => q.eq('email', args.email))
+      .first()
+    return user
+  },
+})
+
+export const updateUserProAccess = mutation({
+  args: {
+    privyDid: v.string(),
+    hasPro: v.boolean(),
+    priceId: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
+      .unique()
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    await ctx.db.patch(user._id, {
+      hasPro: args.hasPro,
+      priceId: args.priceId,
+    })
+  },
+})
