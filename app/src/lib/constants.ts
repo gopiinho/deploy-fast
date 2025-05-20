@@ -9,11 +9,11 @@ const plans = [
     link:
       process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
         ? 'https://buy.stripe.com/test_aFabIUaPYfMV7Aj2fl4Vy02'
-        : '',
+        : 'https://buy.stripe.com/6oUaEQe2n7sBbhobaD6AM01',
     priceId:
       process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
         ? 'price_1RP5nk2MVb79j7fQT2reL3Qv'
-        : '',
+        : 'price_1RQt4x2NU2XubnCHfMW2stdZ',
     price: 10,
     duration: '/month',
   },
@@ -21,11 +21,11 @@ const plans = [
     link:
       process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
         ? 'https://buy.stripe.com/test_aFa3cogaigQZ4o78DJ4Vy03'
-        : '',
+        : 'https://buy.stripe.com/dRm9AM4rNdQZclsdiL6AM00',
     priceId:
-      process.env.NEXT_PUBLIC_ENVIRONMENT === 'development'
+      process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
         ? 'price_1RP5ok2MVb79j7fQwdk886aF'
-        : '',
+        : 'price_1RQt4x2NU2XubnCHYDtzNU1f',
     price: 80,
     duration: '/year',
   },
