@@ -7,9 +7,10 @@ import ProjectsList from '@/components/projects/projects-list'
 import { useCreateProjectStore } from '@/state/createProjectStore'
 import CreateProject from '@/components/projects/create-project'
 import Footer from '@/components/footer'
+import { MoonLoader } from 'react-spinners'
 
 export default function Projects() {
-  const { projects, hasProjects } = useUserStore()
+  const { projects, hasProjects, isLoading } = useUserStore()
   const { open, setOpen } = useCreateProjectStore()
 
   const handleCreateProject = () => {
@@ -19,7 +20,11 @@ export default function Projects() {
   return (
     <>
       <PageBase>
-        {hasProjects ? (
+        {isLoading ? (
+          <div className="text-foreground mb-12 flex min-h-[calc(100vh-80px)] items-center justify-center">
+            <MoonLoader size={30} color="currentColor" />
+          </div>
+        ) : hasProjects ? (
           <div className="flex flex-col gap-8">
             <div className="border-border flex border-b">
               <div className="px-4 pb-5 lg:px-6 lg:pb-8">
