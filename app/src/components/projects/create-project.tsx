@@ -101,7 +101,7 @@ export default function CreateProject({ close }: CreateProjectProps) {
                       className="cursor-pointer duration-150 hover:opacity-50"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 text-start">
                     <span>Project Name</span>
                     <FormField
                       control={form.control}

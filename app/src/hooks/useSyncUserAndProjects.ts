@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect } from 'react'
 import { api } from '../../convex/_generated/api'
-import { useQuery, useMutation } from 'convex/react'
+import { useQuery } from 'convex/react'
 import { usePrivy } from '@privy-io/react-auth'
 import { useUserStore } from '@/state/userStore'
 
 export const useSyncUserAndProjects = () => {
   const {
-    privyDid: currentPrivyDid,
+    privyDid: currentPrivyDidFromStore,
     isLoading: storeIsLoading,
     setPrivyDid,
     _setConvexUserId,
@@ -21,108 +21,68 @@ export const useSyncUserAndProjects = () => {
     authenticated: privyAuthenticated,
   } = usePrivy()
 
-  const createUser = useMutation(api.users.createUser)
-  const createAttemptedForDid = useRef<string | undefined>(undefined)
+  const privyDidFromAuth =
+    privyReady && privyAuthenticated ? privyUser?.id : undefined
 
-  const privyDid = privyReady && privyAuthenticated ? privyUser?.id : undefined
-
-  const userData = useQuery(
+  const userDataAndProjectCount = useQuery(
     api.users.getUserAndProjectCount,
-    privyDid ? { privyDid } : 'skip'
+    privyDidFromAuth ? { privyDid: privyDidFromAuth } : 'skip'
   )
 
   const hasProjectsData = useQuery(
     api.projects.userHasProjects,
-    privyDid ? { privyDid } : 'skip'
+    privyDidFromAuth ? { privyDid: privyDidFromAuth } : 'skip'
   )
 
   const projectsData = useQuery(
     api.projects.getUserProjects,
-    privyDid ? { privyDid } : 'skip'
+    privyDidFromAuth ? { privyDid: privyDidFromAuth } : 'skip'
   )
 
   useEffect(() => {
-    if (privyDid !== currentPrivyDid) {
-      setPrivyDid(privyDid || undefined)
+    if (privyDidFromAuth !== currentPrivyDidFromStore) {
+      setPrivyDid(privyDidFromAuth || undefined)
     }
-  }, [privyDid, setPrivyDid, currentPrivyDid])
-
-  useMemo(() => {
-    if (
-      privyReady &&
-      privyAuthenticated &&
-      privyUser &&
-      privyDid &&
-      userData === undefined &&
-      createAttemptedForDid.current !== privyDid
-    ) {
-      createAttemptedForDid.current = privyDid
-      createUser({
-        privyDid: privyUser.id,
-        email: privyUser.email?.address,
-        name:
-          privyUser.google?.name ??
-          privyUser.twitter?.name ??
-          privyUser.discord?.username ??
-          privyUser.github?.username ??
-          privyUser.linkedin?.name ??
-          privyUser.email?.address ??
-          'Anonymous',
-        wallet: privyUser.wallet?.address,
-        hasPro: false,
-      }).catch((error) => {
-        console.error('Error creating/syncing user:', error)
-      })
-    }
-  }, [
-    privyReady,
-    privyAuthenticated,
-    privyUser,
-    privyDid,
-    userData,
-    createUser,
-  ])
+  }, [privyDidFromAuth, setPrivyDid, currentPrivyDidFromStore])
 
   useEffect(() => {
-    const loading =
-      !privyReady ||
-      (privyAuthenticated && !privyDid) ||
-      (privyDid && projectsData === undefined) ||
-      (privyDid && userData === undefined)
-    if (loading !== storeIsLoading) {
-      _setLoading(!!loading)
+    if (!privyReady) {
+      if (!storeIsLoading) _setLoading(true)
+      return
     }
-    if (!loading && privyDid) {
-      if (projectsData !== undefined) {
-        _setProjects(projectsData)
-      } else {
-        _setProjects(undefined)
+
+    if (privyAuthenticated && privyDidFromAuth) {
+      const stillFetchingConvexData =
+        userDataAndProjectCount === undefined ||
+        projectsData === undefined ||
+        hasProjectsData === undefined
+
+      if (stillFetchingConvexData) {
+        if (!storeIsLoading) _setLoading(true)
+        return
       }
-      if (userData?.userId) {
-        _setConvexUserId(userData.userId)
-      } else {
-        _setConvexUserId(undefined)
-      }
-      if (hasProjectsData !== undefined) {
-        _setHasProjects(hasProjectsData)
-      }
-    } else if (!privyDid && !storeIsLoading) {
-      setPrivyDid(undefined)
-      _setProjects(undefined)
+
+      if (storeIsLoading) _setLoading(false)
+
+      _setConvexUserId(userDataAndProjectCount?.userId || undefined)
+      _setProjects(projectsData || undefined)
+      _setHasProjects(hasProjectsData || false)
+    } else {
+      if (storeIsLoading) _setLoading(false)
       _setConvexUserId(undefined)
-      _setLoading(false)
+      _setProjects(undefined)
+      _setHasProjects(false)
     }
   }, [
     privyReady,
     privyAuthenticated,
-    privyDid,
+    privyDidFromAuth,
+    userDataAndProjectCount,
     projectsData,
-    userData,
-    storeIsLoading,
     hasProjectsData,
+    storeIsLoading,
     _setLoading,
     _setProjects,
-    setPrivyDid,
     _setConvexUserId,
     _setHasProjects,
   ])
