@@ -59,14 +59,28 @@ export const provisionUser = mutation({
     wallet: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    if (!args.email) {
-      throw new Error('Email is required to provision a user account.')
+    if (!args.email || !args.email.includes('@')) {
+      throw new Error('Invalid email format provided.')
     }
 
     const existingUser = await ctx.db
       .query('users')
       .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
       .unique()
+
+    const userWithSameEmail = await ctx.db
+      .query('users')
+      .withIndex('by_email', (q) => q.eq('email', args.email))
+      .unique()
+
+    if (
+      userWithSameEmail &&
+      (!existingUser || userWithSameEmail._id !== existingUser._id)
+    ) {
+      throw new Error(
+        'This email address is already associated with another account.'
+      )
+    }
 
     if (existingUser) {
       const patchData: Partial<Doc<'users'>> = {}
@@ -97,7 +111,7 @@ export const provisionUser = mutation({
   },
 })
 
-export const getUserByPrivyDid = query({
+export const getUser = query({
   args: { privyDid: v.string() },
   handler: async (ctx, args) => {
     const user = await ctx.db
@@ -108,14 +122,32 @@ export const getUserByPrivyDid = query({
   },
 })
 
-export const getUser = query({
-  args: { privyDid: v.string() },
+export const getUserAndProjectsData = query({
+  args: {
+    privyDid: v.string(),
+  },
   handler: async (ctx, args) => {
-    const user = await ctx.db
+    const user: Doc<'users'> | null = await ctx.db
       .query('users')
       .withIndex('by_privyDid', (q) => q.eq('privyDid', args.privyDid))
       .unique()
-    return user
+
+    if (!user) {
+      return null
+    }
+
+    const projects: Doc<'projects'>[] = await ctx.db
+      .query('projects')
+      .withIndex('by_userId', (q) => q.eq('userId', user._id))
+      .collect()
+
+    return {
+      user: user,
+      userId: user._id,
+      projects: projects,
+      projectCount: projects.length,
+      hasProjects: projects.length > 0,
+    }
   },
 })
 
