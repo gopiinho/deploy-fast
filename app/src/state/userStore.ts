@@ -5,11 +5,13 @@ import { persist } from 'zustand/middleware'
 interface UserState {
   privyDid: string | undefined
   convexUserId: Id<'users'> | undefined
+  user: Doc<'users'> | undefined
   projects: Doc<'projects'>[] | undefined
   activeProject: Doc<'projects'> | undefined
   hasProjects: boolean | undefined
   isLoading: boolean
   setPrivyDid: (did: string | undefined) => void
+  setUser: (user: Doc<'users'> | undefined) => void
   setActiveProject: (project: Doc<'projects'>) => void
   _setProjects: (projects: Doc<'projects'>[] | undefined) => void
   _setLoading: (loading: boolean) => void
@@ -21,6 +23,7 @@ export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
       privyDid: undefined,
+      user: undefined,
       convexUserId: undefined,
       projects: undefined,
       activeProject: undefined,
@@ -30,6 +33,12 @@ export const useUserStore = create<UserState>()(
       setPrivyDid: (did) =>
         set({
           privyDid: did,
+        }),
+
+      setUser: (userData) =>
+        set({
+          user: userData || undefined,
+          convexUserId: userData?._id || undefined,
         }),
 
       _setProjects: (projects) => {

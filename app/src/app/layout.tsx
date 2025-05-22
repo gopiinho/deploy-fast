@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'sonner'
 import { Providers } from '../components/providers/providers'
@@ -9,13 +9,8 @@ import AuthWrapper from '@/components/auth/auth-wrapper'
 import Navigator from '@/components/navigator'
 import { SITE_NAME, SITE_INFO, SITE_URL, SITE_DESCRIPTION } from '@/lib/site'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const openRoboto = Roboto({
+  variable: '--font-roboto',
   subsets: ['latin'],
 })
 
@@ -38,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="min-h-screen">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${openRoboto.variable} font-[family-name:var(--font-roboto)] antialiased`}
       >
         <ThemeProvider
           attribute="class"
