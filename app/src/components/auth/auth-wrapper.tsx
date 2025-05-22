@@ -30,13 +30,13 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
   )
 
   useEffect(() => {
-    // Rule 1: Wait for Privy to be ready.
     if (!privyReady) {
       return
     }
 
     if (privyAuthenticated && privyDid) {
       const isSignupPage = pathname === '/signup'
+      const isHomePage = pathname === '/'
 
       if (convexCoreProfile === undefined && !isSignupPage) {
         return
@@ -48,6 +48,10 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
       ) {
         if (!isSignupPage) {
           router.push('/signup')
+        }
+      } else if (convexCoreProfile && convexCoreProfile.hasEmail) {
+        if (isHomePage) {
+          router.push('/projects')
         }
       }
     }

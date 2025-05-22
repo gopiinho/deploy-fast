@@ -1,7 +1,11 @@
+'use client'
 import { IoMdCheckmark } from 'react-icons/io'
 import { Button } from '../ui/button'
+import { usePrivy } from '@privy-io/react-auth'
 
 export default function Pricing() {
+  const { login } = usePrivy()
+
   return (
     <div
       id="pricing"
@@ -32,7 +36,9 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <Button variant={'outline'}>Get Started</Button>
+          <Button variant={'outline'} onClick={login}>
+            Get Started
+          </Button>
         </div>
         <div className="bg-card border-primary relative flex h-full flex-col gap-12 rounded-2xl border-2 p-8 text-start shadow-lg">
           <span className="bg-primary text-foreground absolute left-1/2 top-0 -translate-x-1/2 rounded-b-2xl px-4 text-lg font-bold">
@@ -63,7 +69,9 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-          <Button variant={'default'}>Get Started</Button>
+          <Button variant={'default'} onClick={login}>
+            Get Started
+          </Button>
         </div>
       </div>
     </div>
