@@ -9,6 +9,7 @@ export const useSyncUserAndProjects = () => {
     privyDid: currentPrivyDidFromStore,
     isLoading: storeIsLoading,
     setPrivyDid,
+    setUser,
     _setConvexUserId,
     _setProjects,
     _setLoading,
@@ -24,13 +25,8 @@ export const useSyncUserAndProjects = () => {
   const privyDidFromAuth =
     privyReady && privyAuthenticated ? privyUser?.id : undefined
 
-  const userDataAndProjectCount = useQuery(
-    api.users.getUserAndProjectCount,
-    privyDidFromAuth ? { privyDid: privyDidFromAuth } : 'skip'
-  )
-
-  const hasProjectsData = useQuery(
-    api.projects.userHasProjects,
+  const getUserAndProjectsData = useQuery(
+    api.users.getUserAndProjectsData,
     privyDidFromAuth ? { privyDid: privyDidFromAuth } : 'skip'
   )
 
@@ -53,9 +49,7 @@ export const useSyncUserAndProjects = () => {
 
     if (privyAuthenticated && privyDidFromAuth) {
       const stillFetchingConvexData =
-        userDataAndProjectCount === undefined ||
-        projectsData === undefined ||
-        hasProjectsData === undefined
+        getUserAndProjectsData === undefined || projectsData === undefined
 
       if (stillFetchingConvexData) {
         if (!storeIsLoading) _setLoading(true)
@@ -64,9 +58,10 @@ export const useSyncUserAndProjects = () => {
 
       if (storeIsLoading) _setLoading(false)
 
-      _setConvexUserId(userDataAndProjectCount?.userId || undefined)
+      setUser(getUserAndProjectsData?.user || undefined)
+      _setConvexUserId(getUserAndProjectsData?.userId || undefined)
       _setProjects(projectsData || undefined)
-      _setHasProjects(hasProjectsData || false)
+      _setHasProjects(getUserAndProjectsData?.hasProjects || false)
     } else {
       if (storeIsLoading) _setLoading(false)
       _setConvexUserId(undefined)
@@ -77,10 +72,10 @@ export const useSyncUserAndProjects = () => {
     privyReady,
     privyAuthenticated,
     privyDidFromAuth,
-    userDataAndProjectCount,
+    getUserAndProjectsData,
     projectsData,
-    hasProjectsData,
     storeIsLoading,
+    setUser,
     _setLoading,
     _setProjects,
     _setConvexUserId,
