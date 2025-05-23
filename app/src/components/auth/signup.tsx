@@ -7,6 +7,7 @@ import { api } from '../../../convex/_generated/api'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useUserStore } from '@/state/userStore'
+import { extractConvexError } from '@/lib/extractConvexError'
 
 export default function Signup() {
   const [name, setName] = useState('')
@@ -181,7 +182,7 @@ export default function Signup() {
         <div className="grid w-full gap-8 px-6 py-8">
           <div className="grid gap-1">
             <label htmlFor="signup-name" className="font-semibold">
-              Name
+              Name <span className="text-red-400">*</span>
             </label>
             <Input
               id="signup-name"
@@ -208,7 +209,15 @@ export default function Signup() {
               disabled={isLoading}
             />
           </div>
-          {error && <p className="mt-2 px-1 text-sm text-red-500">{error}</p>}
+          <div className="min-h-[2rem] px-1">
+            {error ? (
+              <p className="text-sm text-red-500">
+                {extractConvexError(error)}
+              </p>
+            ) : (
+              <p className="invisible text-sm"></p>
+            )}
+          </div>
         </div>
         <div className="flex w-full justify-end border-t px-6 py-8">
           <Button type="submit" disabled={isLoading}>
