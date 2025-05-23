@@ -44,18 +44,33 @@ export default function Projects() {
             </div>
           </div>
         ) : (
-          <div className="flex h-full flex-col items-center gap-4 py-20 text-center">
-            <p className="text-lg sm:text-xl">
-              No projects found. Create your first project to get started.
-            </p>
-            <Button
-              size={'lg'}
-              className="rounded-sm"
-              onClick={handleCreateProject}
-            >
-              <FaPlus /> Create Project
-            </Button>
-            {open ? <CreateProject close={() => setOpen(false)} /> : null}
+          <div className="flex flex-col gap-8">
+            <div className="border-border flex border-b">
+              <div className="px-4 pb-5 lg:px-6 lg:pb-8">
+                <span className="text-2xl font-semibold sm:text-3xl">
+                  Overview
+                </span>
+              </div>
+            </div>
+            <div className="flex h-full flex-col items-center gap-4 py-20 text-center">
+              <p>
+                <span className="py-2 text-2xl font-semibold sm:text-4xl">
+                  No project found
+                </span>
+                <br />
+                <span className="text-muted-foreground text-base">
+                  Create your first project to get started
+                </span>
+              </p>
+              <Button
+                size={'lg'}
+                className="rounded-sm"
+                onClick={handleCreateProject}
+              >
+                <FaPlus /> Create Project
+              </Button>
+              {open ? <CreateProject close={() => setOpen(false)} /> : null}
+            </div>
           </div>
         )}
       </PageBase>
