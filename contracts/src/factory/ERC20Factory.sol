@@ -9,6 +9,12 @@ contract ERC20Factory {
     ///////////////
     event ERC20Deployed(string indexed name, string indexed symbol, uint256 mintAmount, address indexed erc20Address);
 
+    ///////////////////////
+    /// State Variables ///
+    ///////////////////////
+    address[] public deployedContracts;
+    mapping(address => address[]) public userContracts;
+
     ///////////////
     // Functions //
     ///////////////
@@ -19,7 +25,8 @@ contract ERC20Factory {
         returns (address)
     {
         address erc20Address = address(new ERC20Contract(name, symbol, mintAmount, mintTo, msg.sender));
-        // erc20 = ERC20Contract(erc20Address);
+        deployedContracts.push(erc20Address);
+        userContracts[msg.sender].push(erc20Address);
         emit ERC20Deployed(name, symbol, mintAmount, erc20Address);
         return erc20Address;
     }
