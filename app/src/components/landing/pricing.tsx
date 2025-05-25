@@ -46,7 +46,7 @@ export default function Pricing() {
           </span>
           <div className="grid">
             <span className="mb-1 mt-2 text-3xl font-bold lg:text-4xl">
-              $9.99 <span className="text-xl">per /month</span>
+              $10 <span className="text-xl">per /month</span>
             </span>
             <span className="text-muted-foreground">Free for all users.</span>
             <div className="mt-3 grid">
