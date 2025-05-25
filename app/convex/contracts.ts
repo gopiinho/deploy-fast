@@ -10,6 +10,29 @@ export const createContract = mutation({
     name: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const project = await ctx.db.get(args.projectId)
+
+    if (!project) {
+      throw new Error('Project not found')
+    }
+
+    const user = await ctx.db.get(project.userId)
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    if (!user.hasPro) {
+      const existingContracts = await ctx.db
+        .query('contracts')
+        .withIndex('by_projectId', (q) => q.eq('projectId', args.projectId))
+        .collect()
+
+      if (existingContracts.length >= 10) {
+        throw new Error('Free tier can only create 10 contracts per project.')
+      }
+    }
+
     return await ctx.db.insert('contracts', {
       projectId: args.projectId,
       address: args.address,

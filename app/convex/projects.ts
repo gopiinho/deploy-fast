@@ -35,8 +35,8 @@ export const createProject = mutation({
       throw new Error('Project name already exists.')
     }
 
-    if (existingProjects.length >= 5) {
-      throw new Error('You can have a maximum of 5 projects.')
+    if (!user.hasPro && existingProjects.length >= 1) {
+      throw new Error('Free tier can only have one project.')
     }
 
     let slug = slugify(projectName, {
