@@ -67,7 +67,7 @@ export default function Signup() {
           ? privyUser.email.address.split('@')[0]
           : '') ??
         ''
-      const initialEmail = privyUser.email?.address ?? ''
+      const initialEmail = privyUser.google?.email ?? ''
 
       setName(initialName)
       setEmail(initialEmail)
