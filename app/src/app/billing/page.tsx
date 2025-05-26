@@ -6,9 +6,14 @@ import { IoMdCheckmark } from 'react-icons/io'
 import PricingToggle from '@/components/ui/pricing-toggle'
 import Link from 'next/link'
 import { plans } from '@/lib/constants'
+import { useUserStore } from '@/state/userStore'
 
 export default function Billing() {
   const [isAnnual, setIsAnnual] = useState(false)
+
+  const { user } = useUserStore()
+
+  const userEmail = user?.email
 
   const plan = isAnnual ? plans[1] : plans[0]
 
@@ -66,7 +71,7 @@ export default function Billing() {
             </div>
           </div>
           <Link
-            href={plan.link + '?prefilled_email=' + ''}
+            href={plan.link + '?prefilled_email=' + userEmail}
             passHref
             className="w-full"
             target="_blank"

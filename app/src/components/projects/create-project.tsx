@@ -1,4 +1,5 @@
-// import { useState } from 'react'
+import Link from 'next/link'
+import { useState } from 'react'
 import { api } from '../../../convex/_generated/api'
 import { useMutation } from 'convex/react'
 import { useCreateProjectStore } from '@/state/createProjectStore'
@@ -31,8 +32,8 @@ const formSchema = z.object({
 })
 
 export default function CreateProject({ close }: CreateProjectProps) {
-  // const [slug, setSlug] = useState<string>('')
-  const { privyDid } = useUserStore()
+  const [error, setError] = useState<string>('')
+  const { privyDid, user } = useUserStore()
   const { name, setName, loading, setLoading, open } = useCreateProjectStore()
 
   const createProject = useMutation(api.projects.createProject)
@@ -63,7 +64,7 @@ export default function CreateProject({ close }: CreateProjectProps) {
       setLoading(false)
     } catch (error) {
       const errorMessage = extractConvexError(error)
-      toast.error(errorMessage)
+      setError(errorMessage)
     } finally {
       setLoading(false)
     }
@@ -122,6 +123,26 @@ export default function CreateProject({ close }: CreateProjectProps) {
                         </FormItem>
                       )}
                     />
+                  </div>
+                  <div className="h-10">
+                    {error ? (
+                      <div className="flex gap-2 rounded-sm bg-red-600/30 p-2 text-sm text-red-400">
+                        <span className="">{error}</span>
+                        {error === 'Free tier can only have one project.' &&
+                          !user?.hasPro && (
+                            <Link href={'/billing'}>
+                              <p
+                                className="text-foreground font-semibold duration-150 hover:opacity-70"
+                                onClick={close}
+                              >
+                                Upgrade Plan
+                              </p>
+                            </Link>
+                          )}
+                      </div>
+                    ) : (
+                      ''
+                    )}
                   </div>
                   <div className="flex items-end justify-end gap-2 pt-4">
                     <Button
