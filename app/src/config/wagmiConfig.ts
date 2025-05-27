@@ -1,17 +1,17 @@
-import { baseSepolia, mainnet, base, optimism, arbitrum } from 'viem/chains'
-import { http } from 'wagmi'
-
 import { createConfig } from '@privy-io/wagmi'
-import { chains, chainsTestnet } from '@/lib/chains'
+import { allChains, wagmiTransports } from '@/lib/chains'
+import type { ExtendedChain } from '@/lib/chains'
+
+const chainsForWagmi = allChains as readonly [ExtendedChain, ...ExtendedChain[]]
 
 export const wagmiConfig = createConfig({
-  chains: [baseSepolia, mainnet, base, optimism, arbitrum],
+  chains: chainsForWagmi,
   ssr: true,
-  transports: {
-    [baseSepolia.id]: http(chainsTestnet.baseSepolia.rpcUrl),
-    [mainnet.id]: http(chains.ethereum.rpcUrl),
-    [base.id]: http(chains.base.rpcUrl),
-    [optimism.id]: http(chains.optimism.rpcUrl),
-    [arbitrum.id]: http(chains.arbitrum.rpcUrl),
-  },
+  transports: wagmiTransports,
 })
+
+declare module 'wagmi' {
+  interface Register {
+    config: typeof wagmiConfig
+  }
+}
