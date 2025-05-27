@@ -1,3 +1,4 @@
+import { StaticImageData } from 'next/image'
 import {
   mainnet,
   base,
@@ -9,8 +10,11 @@ import {
 import type { Chain } from 'viem'
 import { http } from 'wagmi'
 
+import { ethLogo, baseLogo, optLogo, arbLogo } from '../../public/chains'
+
 export interface ExtendedChain extends Chain {
   rpcUrl: string
+  logo: StaticImageData
 }
 
 const mainnetRpcUrls = {
@@ -33,18 +37,22 @@ const mainnetChains: Record<string, ExtendedChain> = {
   ethereum: {
     ...mainnet,
     rpcUrl: mainnetRpcUrls.ethereum,
+    logo: ethLogo,
   },
   base: {
     ...base,
     rpcUrl: mainnetRpcUrls.base,
+    logo: baseLogo,
   },
   optimism: {
     ...optimism,
     rpcUrl: mainnetRpcUrls.optimism,
+    logo: optLogo,
   },
   arbitrum: {
     ...arbitrum,
     rpcUrl: mainnetRpcUrls.arbitrum,
+    logo: arbLogo,
   },
 }
 
@@ -52,20 +60,29 @@ const testnetChains: Record<string, ExtendedChain> = {
   baseSepolia: {
     ...baseSepolia,
     rpcUrl: testnetRpcUrls.baseSepolia,
-  },
-  sepolia: {
-    ...sepolia,
-    rpcUrl: testnetRpcUrls.sepolia,
+    logo: baseLogo,
   },
 }
 
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
+
+export const mainnetChainsMap: Record<string, ExtendedChain> = {
+  ...mainnetChains,
+}
+
+export const testnetChainsMap: Record<string, ExtendedChain> = {
+  ...testnetChains,
+} as const
 
 export const allChainsMap: Record<string, ExtendedChain> = {
   ...mainnetChains,
   ...(isDevelopment ? testnetChains : {}),
 } as const
 
+export const mainnetChainsArray: readonly ExtendedChain[] =
+  Object.values(mainnetChainsMap)
+export const testnetChainsArray: readonly ExtendedChain[] =
+  Object.values(testnetChainsMap)
 export const allChains: readonly ExtendedChain[] = Object.values(allChainsMap)
 
 export const defaultChain: ExtendedChain = isDevelopment
