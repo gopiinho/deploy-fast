@@ -62,6 +62,11 @@ const testnetChains: Record<string, ExtendedChain> = {
     rpcUrl: testnetRpcUrls.baseSepolia,
     logo: baseLogo,
   },
+  sepolia: {
+    ...sepolia,
+    rpcUrl: testnetRpcUrls.sepolia,
+    logo: ethLogo,
+  },
 }
 
 const isDevelopment = process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
