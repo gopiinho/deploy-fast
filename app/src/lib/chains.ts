@@ -86,8 +86,10 @@ export const allChainsMap: Record<string, ExtendedChain> = {
 
 export const mainnetChainsArray: readonly ExtendedChain[] =
   Object.values(mainnetChainsMap)
+
 export const testnetChainsArray: readonly ExtendedChain[] =
   Object.values(testnetChainsMap)
+
 export const allChains: readonly ExtendedChain[] = Object.values(allChainsMap)
 
 export const defaultChain: ExtendedChain = isDevelopment
@@ -114,6 +116,7 @@ export const wagmiTransports = allChains.reduce(
   },
   {} as Record<number, ReturnType<typeof http>>
 )
+
 export type SupportedChainKey = keyof typeof allChainsMap
 export type SupportedChain = (typeof allChainsMap)[SupportedChainKey]
 
