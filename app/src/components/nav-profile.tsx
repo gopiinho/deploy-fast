@@ -17,10 +17,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { shortenAddress } from '@/lib/helpers/helpers'
+import { useUserStore } from '@/state/userStore'
 
 export default function NavProfile() {
   const { user, logout } = usePrivy()
   const { theme, setTheme } = useTheme()
+  const { user: appUser } = useUserStore()
+
+  const userHasPro = appUser?.hasPro
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -41,8 +45,10 @@ export default function NavProfile() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link href={'/billing'}>
-            <DropdownMenuItem className="text-primary">
-              Upgrade Plan
+            <DropdownMenuItem
+              className={`text-primary ${userHasPro && 'bg-primary/20'}`}
+            >
+              {userHasPro ? 'Manage Pro' : 'Upgrade Plan'}
             </DropdownMenuItem>
           </Link>
           <Link href={'/projects'}>

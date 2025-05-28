@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import NavProfile from './nav-profile'
 import { ProjectsTab } from './projects/projects-tab'
+import { ChainSwitcher } from './chain-switcher'
 
 export default function AppNavigator() {
   return (
@@ -17,7 +18,8 @@ export default function AppNavigator() {
         <span className="opacity-50">/</span>
         <ProjectsTab />
       </div>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
+        <ChainSwitcher showChainName={false} />
         <NavProfile />
       </div>
     </header>

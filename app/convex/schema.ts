@@ -25,6 +25,7 @@ export default defineSchema({
   contracts: defineTable({
     projectId: v.id('projects'),
     address: v.string(),
+    chainId: v.number(),
     type: v.string(),
     name: v.optional(v.string()),
   })

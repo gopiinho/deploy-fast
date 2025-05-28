@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
-import { IoIosArrowDown } from 'react-icons/io'
 import { MdUpload } from 'react-icons/md'
 import { usePublicClient, useWriteContract } from 'wagmi'
 import {
@@ -47,6 +46,8 @@ import {
   OPTIMIZER_RUNS,
 } from '@/lib/contract-verify/token/token-details'
 import { useVerifyContract } from '@/hooks/useVerifyContract'
+import { ChainSwitcher } from '../chain-switcher'
+import { useCurrentChainConfig } from '@/state/chainStore'
 
 const formSchema = z.object({
   name: z
@@ -86,6 +87,8 @@ export default function TokenForm() {
     useVerifyContract()
 
   const addContractToProject = useMutation(api.contracts.createContract)
+
+  const currentChain = useCurrentChainConfig()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -169,6 +172,7 @@ export default function TokenForm() {
               await addContractToProject({
                 name: values.name,
                 address: deployedAddress,
+                chainId: currentChain.id,
                 type: 'Token',
                 projectId: activeProject?._id,
               })
@@ -219,6 +223,7 @@ export default function TokenForm() {
       addContractToProject,
       verifyContract,
       setConfirming,
+      currentChain.id,
     ]
   )
 
@@ -347,10 +352,8 @@ export default function TokenForm() {
                   isRequired
                   description="Select a network to deploy this contract on."
                 />
-                <div className="border-input hover:bg-accent flex h-12 cursor-not-allowed items-center justify-between rounded-sm border p-3 px-4 duration-150 lg:w-[40%]">
-                  <span>Base Sepolia</span>
-                  <IoIosArrowDown />
-                </div>
+                <ChainSwitcher showChainName />
+                <div>Chain ID: {currentChain.id}</div>
               </div>
             </div>
           </FormBlock>

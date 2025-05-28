@@ -1,5 +1,7 @@
 import type { PrivyClientConfig } from '@privy-io/react-auth'
-import { baseSepolia } from 'viem/chains'
+import { allChains, defaultChain } from '@/lib/chains'
+
+const chains = Object.values(allChains).map(({ ...chain }) => chain)
 
 export const privyConfig: PrivyClientConfig = {
   embeddedWallets: {
@@ -10,7 +12,8 @@ export const privyConfig: PrivyClientConfig = {
   loginMethods: ['google', 'wallet'],
   appearance: {
     theme: 'dark',
-    showWalletLoginFirst: true,
+    showWalletLoginFirst: false,
   },
-  defaultChain: baseSepolia,
+  supportedChains: chains,
+  defaultChain: defaultChain,
 }

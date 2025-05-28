@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
   return (
     <PrivyProvider
-      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
       config={privyConfig}
     >
       <QueryClientProvider client={queryClient}>

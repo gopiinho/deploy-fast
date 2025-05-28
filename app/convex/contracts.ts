@@ -6,6 +6,7 @@ export const createContract = mutation({
   args: {
     projectId: v.id('projects'),
     address: v.string(),
+    chainId: v.number(),
     type: v.string(),
     name: v.optional(v.string()),
   },
@@ -36,6 +37,7 @@ export const createContract = mutation({
     return await ctx.db.insert('contracts', {
       projectId: args.projectId,
       address: args.address,
+      chainId: args.chainId,
       type: args.type,
       name: args.name,
     })

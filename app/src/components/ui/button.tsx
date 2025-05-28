@@ -16,7 +16,7 @@ const buttonVariants = cva(
         outline:
           'border border-border transition duration-150 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground',
         delete:
-          'border text-foreground border-red-600 bg-red-600 shadow-xs hover:bg-red-600/70 duration-150 transition',
+          'border text-background dark:text-foreground border-red-600 bg-red-600 shadow-xs hover:bg-red-600/70 duration-150 transition',
         secondary:
           'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',

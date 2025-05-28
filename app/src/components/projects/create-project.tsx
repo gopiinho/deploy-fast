@@ -126,7 +126,7 @@ export default function CreateProject({ close }: CreateProjectProps) {
                   </div>
                   <div className="h-10">
                     {error ? (
-                      <div className="flex gap-2 rounded-sm bg-red-600/30 p-2 text-sm text-red-400">
+                      <div className="text-warning flex gap-2 rounded-sm bg-red-600/30 p-2 text-sm">
                         <span className="">{error}</span>
                         {error === 'Free tier can only have one project.' &&
                           !user?.hasPro && (
