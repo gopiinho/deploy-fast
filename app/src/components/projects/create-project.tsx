@@ -154,7 +154,11 @@ export default function CreateProject({ close }: CreateProjectProps) {
                       Cancel
                     </Button>
                     <Button type="submit" size={'lg'}>
-                      {loading ? <MoonLoader size={20} /> : 'Confirm'}
+                      {loading ? (
+                        <MoonLoader size={30} color="currentColor" />
+                      ) : (
+                        'Confirm'
+                      )}
                     </Button>
                   </div>
                 </div>

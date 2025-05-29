@@ -96,7 +96,11 @@ export default function MintTokens() {
             onClick={() => handleMintTokens()}
             disabled={isPending}
           >
-            {isPending ? <MoonLoader color="#000" size={20} /> : 'Mint Tokens'}
+            {isPending ? (
+              <MoonLoader size={30} color="currentColor" />
+            ) : (
+              'Mint Tokens'
+            )}
           </WalletButton>
           <DrawerClose>
             <Button variant="outline" size={'full'}>

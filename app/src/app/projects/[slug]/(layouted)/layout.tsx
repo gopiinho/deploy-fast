@@ -56,7 +56,7 @@ export default function ProjectLayout({
       <ProjectContentWrapper>
         {isLoading ? (
           <div className="text-foreground flex h-full w-full items-center justify-center">
-            <MoonLoader size={30} color="var(--foreground)" />
+            <MoonLoader size={30} color="currentColor" />
           </div>
         ) : currentProject ? (
           children

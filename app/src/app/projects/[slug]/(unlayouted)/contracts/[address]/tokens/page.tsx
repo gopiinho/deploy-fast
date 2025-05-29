@@ -6,6 +6,7 @@ import { useTokenData } from '@/hooks/useTokenData'
 import MintTokens from '@/components/contracts/info/mint-tokens'
 import BurnTokens from '@/components/contracts/info/burn-tokens'
 import TransferTokens from '@/components/contracts/info/transfer-tokens'
+import { MoonLoader } from 'react-spinners'
 
 export default function ContractInfoTokens() {
   const params = useParams<{ address: string }>()
@@ -14,7 +15,12 @@ export default function ContractInfoTokens() {
   const { formattedTotalSupply, formattedUserBalance, isLoading, isError } =
     useTokenData(contractAddress)
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return (
+      <div className="flex w-full items-center justify-center py-12 text-center">
+        <MoonLoader size={30} color="currentColor" />
+      </div>
+    )
   if (isError) return <div>Error fetching data</div>
 
   return (

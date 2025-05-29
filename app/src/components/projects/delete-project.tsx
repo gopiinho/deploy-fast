@@ -63,7 +63,11 @@ export default function DeleteProject({
             variant={'delete'}
             size={'lg'}
           >
-            {deleting ? <MoonLoader size={20} /> : 'Delete'}
+            {deleting ? (
+              <MoonLoader size={30} color="currentColor" />
+            ) : (
+              'Delete'
+            )}
           </Button>
         </div>
       </div>

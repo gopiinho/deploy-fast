@@ -9,7 +9,7 @@ interface ContractInfoHeaderProps {
   chainId?: number
 }
 
-export default function ContractInfoHeader({
+export function ContractInfoHeader({
   name,
   address,
   type,
@@ -26,6 +26,22 @@ export default function ContractInfoHeader({
         <div className="border-border hover:bg-border inline-flex w-max cursor-pointer items-center gap-2 rounded-md border px-3 py-1 transition duration-150">
           <IoCopyOutline size={12} className="text-muted-foreground" />
           {shortenAddress(address)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function ContractInfoHeaderPlaceholder() {
+  return (
+    <section className="border-border flex w-full justify-between border-b px-2 py-6 sm:px-6">
+      <div className="grid gap-3">
+        <div className="flex items-end gap-4">
+          <span className="h-10 min-w-40 animate-pulse rounded-sm border px-3 py-1" />
+        </div>
+        <div className="border-border hover:bg-border inline-flex h-[34px] w-max cursor-pointer items-center gap-2 rounded-md border px-3 py-1 transition duration-150">
+          <IoCopyOutline size={12} className="text-muted-foreground" />
+          <span className="h-4 w-20"></span>
         </div>
       </div>
     </section>

@@ -1,13 +1,18 @@
 'use client'
-import { useEffect, Suspense } from 'react'
+import { useEffect } from 'react'
 import { api } from '../../../../../../../convex/_generated/api'
 import { useQuery } from 'convex/react'
 import { useParams } from 'next/navigation'
 import { useUserStore } from '@/state/userStore'
 import { useContractInfoStore } from '@/state/contractStore'
-import ContractInfoHeader from '@/components/contracts/info/contract-info-header'
+import {
+  ContractInfoHeader,
+  ContractInfoHeaderPlaceholder,
+} from '@/components/contracts/info/contract-info-header'
 import ContractInfoOptions from '@/components/contracts/info/contract-info-options'
 import ContractInfoWrapper from '@/components/contracts/info/contract-info-wrapper'
+import { MoonLoader } from 'react-spinners'
+
 interface ContractInfoLayoutProps {
   children: React.ReactNode
 }
@@ -69,27 +74,51 @@ export default function ContractInfoLayout({
     }
     return (
       <div>
-        {skipQuery ? 'Waiting for user data...' : 'Loading contract data...'}
+        {skipQuery ? (
+          'Waiting for user data...'
+        ) : (
+          <ContractInfoLayoutPlaceholder />
+        )}
       </div>
     )
   }
 
   if (contractData === null) {
-    return <div>Error: Contract not found or you do not have access.</div>
+    return (
+      <div className="flex min-h-[calc(100vh-80px)] w-full flex-col text-center">
+        <span className="flex flex-col gap-1 py-20 text-2xl font-semibold">
+          <span>Contract not found</span>
+          <span>or</span>
+          <span>You do not have access</span>
+        </span>
+      </div>
+    )
   }
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] w-full flex-col">
-      <Suspense fallback={<div>Loading...</div>}>
-        <ContractInfoHeader
-          name={contractData.name}
-          address={contractData.address}
-          type={contractData.type}
-        />
-      </Suspense>
+      <ContractInfoHeader
+        name={contractData.name}
+        address={contractData.address}
+        type={contractData.type}
+      />
       <div className="flex h-full flex-1">
         <ContractInfoOptions />
         <ContractInfoWrapper>{children}</ContractInfoWrapper>
+      </div>
+    </div>
+  )
+}
+
+function ContractInfoLayoutPlaceholder() {
+  return (
+    <div className="flex min-h-[calc(100vh-80px)] w-full flex-col">
+      <ContractInfoHeaderPlaceholder />
+      <div className="flex h-full flex-1">
+        <ContractInfoOptions />
+        <div className="flex h-full w-full items-center justify-center py-16 text-center">
+          <MoonLoader size={30} color="currentColor" />
+        </div>
       </div>
     </div>
   )

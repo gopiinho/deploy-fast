@@ -110,7 +110,7 @@ export default function TransferTokens() {
             disabled={isPending}
           >
             {isPending ? (
-              <MoonLoader color="#000" size={20} />
+              <MoonLoader size={30} color="currentColor" />
             ) : (
               'Transfer Tokens'
             )}

@@ -99,7 +99,11 @@ export default function BurnTokens() {
             onClick={() => handleBurnTokens()}
             disabled={isPending}
           >
-            {isPending ? <MoonLoader color="#000" size={20} /> : 'Burn Tokens'}
+            {isPending ? (
+              <MoonLoader size={30} color="currentColor" />
+            ) : (
+              'Burn Tokens'
+            )}
           </WalletButton>
           <DrawerClose>
             <Button variant="outline" size={'full'}>

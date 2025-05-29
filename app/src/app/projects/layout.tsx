@@ -8,7 +8,7 @@ export default function ProjectLayout({
 }) {
   return (
     <RouteGuard>
-      <Suspense fallback={<div>Loading...</div>}>{children} </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
     </RouteGuard>
   )
 }
