@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { IoMdCheckmark } from 'react-icons/io'
 import PricingToggle from '@/components/ui/pricing-toggle'
@@ -11,8 +10,6 @@ import { useUserStore } from '@/state/userStore'
 import { customerPortalLink } from '@/lib/constants'
 
 export default function Billing() {
-  const router = useRouter()
-
   const [isAnnual, setIsAnnual] = useState(false)
 
   const { user } = useUserStore()
