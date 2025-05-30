@@ -31,4 +31,9 @@ const plans = [
   },
 ]
 
-export { DF_MANAGER, ETHERSCAN_API_VERIFY_URL, plans }
+const customerPortalLink =
+  process.env.NEXT_PUBLIC_ENVIRONMENT === 'dev'
+    ? 'https://billing.stripe.com/p/login/test_cNi7sEaPYbwFdYH07d4Vy00'
+    : 'https://billing.stripe.com/p/login/dRm9AM4rNdQZclsdiL6AM00'
+
+export { DF_MANAGER, ETHERSCAN_API_VERIFY_URL, plans, customerPortalLink }

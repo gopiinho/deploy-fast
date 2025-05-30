@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { IoIosLogOut } from 'react-icons/io'
 import { IoSunnyOutline } from 'react-icons/io5'
@@ -18,8 +19,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { shortenAddress } from '@/lib/helpers/helpers'
 import { useUserStore } from '@/state/userStore'
+import { customerPortalLink } from '@/lib/constants'
 
 export default function NavProfile() {
+  const router = useRouter()
+
   const { user, logout } = usePrivy()
   const { theme, setTheme } = useTheme()
   const { user: appUser } = useUserStore()
@@ -28,6 +32,17 @@ export default function NavProfile() {
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+
+  const handleSubscriptionClick = () => {
+    if (userHasPro) {
+      window.open(
+        customerPortalLink + '?prefilled_email=' + appUser.email,
+        '_blank'
+      )
+    } else {
+      router.push('/billing')
+    }
   }
 
   return user ? (
@@ -44,13 +59,13 @@ export default function NavProfile() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={'/billing'}>
-            <DropdownMenuItem
-              className={`text-primary ${userHasPro && 'bg-primary/20'}`}
-            >
-              {userHasPro ? 'Manage Pro' : 'Upgrade Plan'}
-            </DropdownMenuItem>
-          </Link>
+          <DropdownMenuItem
+            onClick={handleSubscriptionClick}
+            className={`text-primary ${userHasPro && 'bg-primary/20'}`}
+          >
+            {userHasPro ? 'Manage Subscription' : 'Upgrade Plan'}
+          </DropdownMenuItem>
+
           <Link href={'/projects'}>
             <DropdownMenuItem>Your Projects</DropdownMenuItem>
           </Link>

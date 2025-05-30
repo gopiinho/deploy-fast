@@ -1,21 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { IoMdCheckmark } from 'react-icons/io'
 import PricingToggle from '@/components/ui/pricing-toggle'
 import Link from 'next/link'
 import { plans } from '@/lib/constants'
 import { useUserStore } from '@/state/userStore'
+import { customerPortalLink } from '@/lib/constants'
 
 export default function Billing() {
+  const router = useRouter()
+
   const [isAnnual, setIsAnnual] = useState(false)
 
   const { user } = useUserStore()
 
   const userEmail = user?.email
+  const hasPro = user?.hasPro
 
   const plan = isAnnual ? plans[1] : plans[0]
+
+  useEffect(() => {
+    if (hasPro && userEmail) {
+      const redirectUrl = `${customerPortalLink}?prefilled_email=${userEmail}`
+      window.location.href = redirectUrl
+    }
+  }, [hasPro, userEmail])
+
+  if (hasPro) return null
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] flex-col items-center justify-center gap-8 max-sm:pb-24 max-sm:pt-12">
